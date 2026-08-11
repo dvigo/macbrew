@@ -303,7 +303,7 @@ body {
 
 /* Presets Pills */
 .presets-wrapper {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -314,8 +314,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.65rem 1.25rem;
   border-radius: var(--radius-full);
-  max-width: 960px;
+  max-width: 980px;
   margin: 0 auto;
+  min-height: 54px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
@@ -329,10 +330,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  white-space: nowrap;
 }
 
 .presets-pills {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
@@ -340,8 +344,10 @@ body {
 .preset-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   padding: 0.45rem 0.95rem;
+  height: 36px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-full);
@@ -349,14 +355,15 @@ body {
   font-weight: 600;
   color: #e2e8f0;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .preset-pill:hover {
   background: rgba(56, 189, 248, 0.18);
   color: #38bdf8;
   border-color: #38bdf8;
-  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
 }
 
