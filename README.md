@@ -6,6 +6,10 @@
 [![Homebrew](https://img.shields.io/badge/Homebrew-Casks%20%26%20Formulae-FBBF24?style=for-the-badge&logo=homebrew&logoColor=black)](https://brew.sh)
 [![License](https://img.shields.io/badge/License-MIT-38BDF8?style=for-the-badge)](LICENSE)
 
+<p align="center">
+  <img src="assets/preview.jpg" alt="MacBrew App Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+</p>
+
 ---
 
 ## ✨ Features
