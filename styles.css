@@ -367,11 +367,26 @@ body {
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
 }
 
-.preset-pill.active {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(99, 102, 241, 0.3));
+.preset-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
   color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.preset-pill.active {
+  background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+  color: #ffffff !important;
   border-color: #38bdf8;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
 }
 
 /* ==========================================================================
@@ -1415,11 +1430,11 @@ body.light .preset-pill:hover {
 }
 
 body.light .preset-pill.active {
-  background: rgba(2, 132, 199, 0.12);
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff !important;
   border-color: #0284c7;
-  color: #0284c7;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
 }
 
 body.light .category-title {

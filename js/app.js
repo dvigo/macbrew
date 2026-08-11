@@ -15,7 +15,7 @@ class MacBrewApp {
     this.selectedAppIds = new Set();
     this.customApps = new Map();
     this.searchQuery = '';
-    this.activePreset = null;
+    this.activePresetIds = new Set();
     this.activeTab = 'oneliner';
     this.brewApiResults = [];
     this.searchDebounceTimer = null;
@@ -179,15 +179,18 @@ class MacBrewApp {
   }
 
   /**
-   * Render Preset Pill Buttons
+   * Render Preset Pill Buttons (Multiple Active Presets Supported)
    */
   renderPresets() {
     this.presetsContainerEl.innerHTML = PRESETS.map(preset => {
       const pName = typeof preset.name === 'object' ? (preset.name[this.lang] || preset.name.en) : preset.name;
       const pDesc = typeof preset.description === 'object' ? (preset.description[this.lang] || preset.description.en) : preset.description;
+      const isActive = this.activePresetIds.has(preset.id) || (preset.appIds.length > 0 && preset.appIds.every(id => this.selectedAppIds.has(id)));
+
       return `
-        <button class="preset-pill ${this.activePreset === preset.id ? 'active' : ''}" data-preset-id="${preset.id}" title="${pDesc}">
-          ${pName}
+        <button class="preset-pill ${isActive ? 'active' : ''}" data-preset-id="${preset.id}" title="${pDesc}">
+          ${isActive ? '<span class="preset-check">✓</span>' : ''}
+          <span>${pName}</span>
         </button>
       `;
     }).join('');
@@ -548,14 +551,13 @@ class MacBrewApp {
         } else {
           this.selectedAppIds.add(appId);
         }
-        this.activePreset = null;
         this.renderPresets();
         this.renderCatalog();
         this.updateUIState();
       }
     });
 
-    // Preset pills click
+    // Preset pills click (Multiple presets selection)
     this.presetsContainerEl.addEventListener('click', (e) => {
       const pill = e.target.closest('.preset-pill');
       if (!pill) return;
@@ -564,11 +566,19 @@ class MacBrewApp {
       const preset = PRESETS.find(p => p.id === presetId);
       if (!preset) return;
 
-      if (this.activePreset === presetId) {
-        this.activePreset = null;
-        preset.appIds.forEach(id => this.selectedAppIds.delete(id));
+      if (this.activePresetIds.has(preset.id)) {
+        this.activePresetIds.delete(preset.id);
+        preset.appIds.forEach(id => {
+          const neededByOther = Array.from(this.activePresetIds).some(otherId => {
+            const p = PRESETS.find(pr => pr.id === otherId);
+            return p && p.appIds.includes(id);
+          });
+          if (!neededByOther) {
+            this.selectedAppIds.delete(id);
+          }
+        });
       } else {
-        this.activePreset = presetId;
+        this.activePresetIds.add(preset.id);
         preset.appIds.forEach(id => this.selectedAppIds.add(id));
       }
 
