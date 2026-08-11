@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/es", "destination": "/es/index.html" },
+    { "source": "/es/", "destination": "/es/index.html" },
+    { "source": "/es/docs", "destination": "/es/docs.html" },
+    { "source": "/es/privacy", "destination": "/es/privacy.html" }
+  ]
+}
