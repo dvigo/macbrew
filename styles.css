@@ -374,11 +374,23 @@ body {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 800;
   line-height: 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  flex-shrink: 0;
+}
+
+.preset-check.visible,
+.preset-pill.active .preset-check {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 }
 
 .preset-pill.active {
@@ -1574,5 +1586,17 @@ body.light .footer-links a {
 }
 
 body.light .footer-links a:hover {
+  color: #0284c7;
+}
+
+body.light .toast {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12), 0 0 15px rgba(2, 132, 199, 0.15);
+}
+
+body.light .toast-icon {
+  background: rgba(2, 132, 199, 0.15);
   color: #0284c7;
 }

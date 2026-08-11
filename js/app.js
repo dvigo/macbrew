@@ -189,7 +189,7 @@ class MacBrewApp {
 
       return `
         <button class="preset-pill ${isActive ? 'active' : ''}" data-preset-id="${preset.id}" title="${pDesc}">
-          ${isActive ? '<span class="preset-check">✓</span>' : ''}
+          <span class="preset-check ${isActive ? 'visible' : ''}">✓</span>
           <span>${pName}</span>
         </button>
       `;
