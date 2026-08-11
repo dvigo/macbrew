@@ -661,11 +661,56 @@ class MacBrewApp {
       this.downloadFile('install.sh', content);
     });
 
-    // Share Button
-    this.shareBtnEl.addEventListener('click', () => {
-      this.syncStateToURL();
-      this.copyToClipboard(window.location.href, this.t('toastShareCopied'));
-    });
+    // Share Button Header
+    if (this.shareBtnEl) {
+      this.shareBtnEl.addEventListener('click', () => {
+        this.openShareModal();
+      });
+    }
+
+    // Share Button Floating Bar
+    const shareSelectionBtn = document.getElementById('share-selection-btn');
+    if (shareSelectionBtn) {
+      shareSelectionBtn.addEventListener('click', () => {
+        this.openShareModal();
+      });
+    }
+
+    // Share Modal Close & Copy Events
+    const closeShareBtn = document.getElementById('close-share-modal');
+    const shareModalOverlay = document.getElementById('share-modal-overlay');
+    if (closeShareBtn) {
+      closeShareBtn.addEventListener('click', () => {
+        this.closeShareModal();
+      });
+    }
+    if (shareModalOverlay) {
+      shareModalOverlay.addEventListener('click', (e) => {
+        if (e.target === shareModalOverlay) {
+          this.closeShareModal();
+        }
+      });
+    }
+
+    const copyShareUrlModalBtn = document.getElementById('copy-share-url-modal-btn');
+    if (copyShareUrlModalBtn) {
+      copyShareUrlModalBtn.addEventListener('click', () => {
+        const input = document.getElementById('share-url-input');
+        if (input) {
+          input.select();
+          this.copyToClipboard(input.value, this.t('toastShareCopied'));
+        }
+      });
+    }
+
+    const shareCopyCmdBtn = document.getElementById('share-copy-cmd-modal-btn');
+    if (shareCopyCmdBtn) {
+      shareCopyCmdBtn.addEventListener('click', () => {
+        const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
+        const cmd = generateOneLiner(selectedApps);
+        this.copyToClipboard(cmd, this.t('toastCopied'));
+      });
+    }
   }
 
   /**
@@ -708,6 +753,66 @@ class MacBrewApp {
   closeModal() {
     this.modalOverlayEl.classList.add('hidden');
     document.body.style.overflow = '';
+  }
+
+  openShareModal() {
+    this.syncStateToURL();
+    const shareUrl = window.location.href;
+    const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
+
+    const input = document.getElementById('share-url-input');
+    if (input) input.value = shareUrl;
+
+    const countEl = document.getElementById('share-preview-count');
+    if (countEl) {
+      countEl.textContent = this.t('selectedAppsLabel', { count: selectedApps.length });
+    }
+
+    const tagsContainer = document.getElementById('share-apps-tags');
+    if (tagsContainer) {
+      if (selectedApps.length > 0) {
+        tagsContainer.innerHTML = selectedApps.map(app => `
+          <span class="share-app-tag">
+            <span>${app.icon || '🍺'}</span>
+            <span>${app.name}</span>
+          </span>
+        `).join('');
+      } else {
+        tagsContainer.innerHTML = `<span class="share-tag-empty">${this.lang === 'es' ? 'Todas las aplicaciones (Selección por defecto)' : 'All apps (Default setup)'}</span>`;
+      }
+    }
+
+    const twitterBtn = document.getElementById('share-twitter-btn');
+    if (twitterBtn) {
+      const text = this.lang === 'es'
+        ? '¡Mira mi selección de aplicaciones para Mac en MacBrew!'
+        : 'Check out my custom Mac app setup generated with MacBrew!';
+      twitterBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+    }
+
+    const whatsappBtn = document.getElementById('share-whatsapp-btn');
+    if (whatsappBtn) {
+      const text = this.lang === 'es'
+        ? `Mira mi selección de apps para Mac en MacBrew: ${shareUrl}`
+        : `Check out my custom Mac app setup generated with MacBrew: ${shareUrl}`;
+      whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    }
+
+    const shareModalOverlay = document.getElementById('share-modal-overlay');
+    if (shareModalOverlay) {
+      shareModalOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeShareModal() {
+    const shareModalOverlay = document.getElementById('share-modal-overlay');
+    if (shareModalOverlay) {
+      shareModalOverlay.classList.add('hidden');
+      if (this.modalOverlayEl.classList.contains('hidden')) {
+        document.body.style.overflow = '';
+      }
+    }
   }
 
   /**

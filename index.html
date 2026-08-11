@@ -187,6 +187,56 @@
       </div>
     </div>
 
+    <!-- Dedicated Share Modal -->
+    <div id="share-modal-overlay" class="modal-overlay hidden">
+      <div class="modal-card share-modal-card">
+        <button id="close-share-modal" class="modal-close-btn" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header">
+          <div class="modal-icon">🔗</div>
+          <div>
+            <h2 class="modal-title" data-i18n="shareModalTitle">Share Your Setup</h2>
+            <p class="modal-subtitle" data-i18n="shareModalSubtitle">Share your custom app selection with colleagues or save it for later.</p>
+          </div>
+        </div>
+
+        <div class="share-modal-body">
+          <!-- Selected Apps Preview Badges -->
+          <div class="share-apps-preview">
+            <span class="share-preview-label" id="share-preview-count">Selected Apps:</span>
+            <div id="share-apps-tags" class="share-apps-tags">
+              <!-- Dynamically populated app badges -->
+            </div>
+          </div>
+
+          <!-- Direct URL Box -->
+          <div class="share-input-group">
+            <label class="share-input-label" data-i18n="shareUrlLabel">Direct Shareable Link</label>
+            <div class="share-input-wrapper">
+              <input type="text" id="share-url-input" readonly>
+              <button id="copy-share-url-modal-btn" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span data-i18n="copyLink">Copy Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Social & Quick Share Actions -->
+          <div class="share-social-actions">
+            <a id="share-twitter-btn" href="#" target="_blank" rel="noopener" class="btn btn-secondary social-btn twitter-btn">
+              <span>🐦 Twitter / X</span>
+            </a>
+            <a id="share-whatsapp-btn" href="#" target="_blank" rel="noopener" class="btn btn-secondary social-btn whatsapp-btn">
+              <span>💬 WhatsApp</span>
+            </a>
+            <button id="share-copy-cmd-modal-btn" class="btn btn-secondary social-btn cmd-btn">
+              <span>⚡ Copy Command</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="app-footer">
       <div class="container footer-content">

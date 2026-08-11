@@ -38,6 +38,16 @@ export const TRANSLATIONS = {
     toastDownloaded: '{file} downloaded',
     toastShareCopied: 'Selection link copied to clipboard!',
 
+    // Dedicated Share Modal
+    shareModalTitle: 'Share Your Setup',
+    shareModalSubtitle: 'Share your custom app selection with colleagues or save it for later.',
+    selectedAppsLabel: 'Selected Apps ({count}):',
+    shareUrlLabel: 'Direct Shareable Link',
+    copyLink: 'Copy Link',
+    shareTwitter: 'Twitter / X',
+    shareWhatsapp: 'WhatsApp',
+    copy1Liner: 'Copy 1-Liner',
+
     // Universal Homebrew Search
     universalTitle: 'Search or add any Homebrew package (11,000+ available)',
     universalSubtitle: 'Can\'t find an app in the featured catalog? Add it by its exact Homebrew name (e.g. <code>ffmpeg</code>, <code>neovim</code>, <code>htop</code>, <code>tmux</code>, <code>nvm</code>).',
@@ -101,6 +111,16 @@ export const TRANSLATIONS = {
     toastCopied: '¡Copiado al portapapeles!',
     toastDownloaded: 'Archivo {file} descargado',
     toastShareCopied: '¡Enlace de selección copiado para compartir!',
+
+    // Dedicated Share Modal
+    shareModalTitle: 'Compartir Configuración',
+    shareModalSubtitle: 'Comparte tu selección de aplicaciones personalizada con otros o guárdala para más tarde.',
+    selectedAppsLabel: 'Aplicaciones Seleccionadas ({count}):',
+    shareUrlLabel: 'Enlace Directo para Compartir',
+    copyLink: 'Copiar Enlace',
+    shareTwitter: 'Twitter / X',
+    shareWhatsapp: 'WhatsApp',
+    copy1Liner: 'Copiar Comando',
 
     // Universal Homebrew Search
     universalTitle: 'Añadir cualquier paquete de Homebrew (11,000+ disponibles)',
