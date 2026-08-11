@@ -192,8 +192,10 @@
       <div class="modal-card share-modal-card">
         <button id="close-share-modal" class="modal-close-btn" aria-label="Cerrar modal">&times;</button>
         
-        <div class="modal-header">
-          <div class="modal-icon">🔗</div>
+        <div class="modal-header share-header">
+          <div class="share-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </div>
           <div>
             <h2 class="modal-title" data-i18n="shareModalTitle">Compartir Configuración</h2>
             <p class="modal-subtitle" data-i18n="shareModalSubtitle">Comparte tu selección de aplicaciones personalizada con otros o guárdala para más tarde.</p>
@@ -203,7 +205,9 @@
         <div class="share-modal-body">
           <!-- Selected Apps Preview Badges -->
           <div class="share-apps-preview">
-            <span class="share-preview-label" id="share-preview-count">Aplicaciones Seleccionadas:</span>
+            <div class="share-preview-header">
+              <span class="share-preview-label" id="share-preview-count">Aplicaciones Seleccionadas:</span>
+            </div>
             <div id="share-apps-tags" class="share-apps-tags">
               <!-- Dynamically populated app badges -->
             </div>
@@ -214,23 +218,28 @@
             <label class="share-input-label" data-i18n="shareUrlLabel">Enlace Directo para Compartir</label>
             <div class="share-input-wrapper">
               <input type="text" id="share-url-input" readonly>
-              <button id="copy-share-url-modal-btn" class="btn btn-primary">
+              <button id="copy-share-url-modal-btn" class="btn btn-primary share-copy-btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <span data-i18n="copyLink">Copiar Enlace</span>
               </button>
             </div>
           </div>
 
-          <!-- Social & Quick Share Actions -->
-          <div class="share-social-actions">
-            <a id="share-twitter-btn" href="#" target="_blank" rel="noopener" class="btn btn-secondary social-btn twitter-btn">
-              <span>🐦 Twitter / X</span>
+          <!-- Social & Quick Share Actions Grid -->
+          <div class="share-social-grid">
+            <a id="share-twitter-btn" href="#" target="_blank" rel="noopener" class="social-card twitter-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span data-i18n="shareTwitter">Compartir en X</span>
             </a>
-            <a id="share-whatsapp-btn" href="#" target="_blank" rel="noopener" class="btn btn-secondary social-btn whatsapp-btn">
-              <span>💬 WhatsApp</span>
+
+            <a id="share-whatsapp-btn" href="#" target="_blank" rel="noopener" class="social-card whatsapp-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.763.459 3.483 1.332 5.001L2 22l5.127-1.341c1.464.796 3.111 1.215 4.88 1.216h.005c5.503 0 9.987-4.478 9.988-9.985 0-2.667-1.037-5.176-2.924-7.062A9.923 9.923 0 0 0 12.012 2zm5.727 14.18c-.236.666-1.37 1.26-1.897 1.338-.48.072-1.096.102-1.764-.112-.41-.131-.938-.302-1.637-.604-2.946-1.272-4.858-4.249-5.006-4.446-.148-.197-1.205-1.603-1.205-3.056 0-1.454.764-2.17 1.035-2.464.272-.294.591-.368.788-.368.196 0 .393.002.564.01.182.008.428-.069.669.51.246.591.837 2.046.91 2.193.073.148.122.32.025.517-.097.197-.147.32-.294.492-.148.172-.31.385-.443.517-.147.147-.301.309-.129.605.172.295.766 1.264 1.648 2.049 1.134 1.01 2.091 1.324 2.386 1.472.295.147.467.123.639-.074.172-.197.738-.86.935-1.155.197-.295.393-.246.664-.147.271.098 1.721.812 2.016.96.295.147.492.221.565.344.073.123.073.714-.163 1.38z"/></svg>
+              <span data-i18n="shareWhatsapp">WhatsApp</span>
             </a>
-            <button id="share-copy-cmd-modal-btn" class="btn btn-secondary social-btn cmd-btn">
-              <span>⚡ Copiar Comando</span>
+
+            <button id="share-copy-cmd-modal-btn" class="social-card cmd-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span data-i18n="copy1Liner">Copiar Comando</span>
             </button>
           </div>
         </div>

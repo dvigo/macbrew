@@ -755,6 +755,27 @@ class MacBrewApp {
     document.body.style.overflow = '';
   }
 
+  /**
+   * Helper to render exact original app icon (CDN image, SVG vector, or symbol)
+   */
+  getAppIconHtml(app) {
+    const symbol = app.symbol || '🍺';
+    const svgIcon = APP_ICONS[app.id];
+
+    if (app.icon && typeof app.icon === 'string' && app.icon.startsWith('http')) {
+      const fallbackHtml = svgIcon || symbol;
+      return `
+        <img src="${app.icon}" class="share-tag-img" alt="${app.name}" loading="lazy"
+          onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-flex';">
+        <span class="share-tag-svg-fallback" style="display:none;">${fallbackHtml}</span>
+      `;
+    } else if (svgIcon) {
+      return `<span class="share-tag-svg">${svgIcon}</span>`;
+    } else {
+      return `<span class="share-tag-fallback">${symbol}</span>`;
+    }
+  }
+
   openShareModal() {
     this.syncStateToURL();
     const shareUrl = window.location.href;
@@ -765,7 +786,9 @@ class MacBrewApp {
 
     const countEl = document.getElementById('share-preview-count');
     if (countEl) {
-      countEl.textContent = this.t('selectedAppsLabel', { count: selectedApps.length });
+      countEl.textContent = this.lang === 'es'
+        ? `Aplicaciones Seleccionadas (${selectedApps.length}):`
+        : `Selected Apps (${selectedApps.length}):`;
     }
 
     const tagsContainer = document.getElementById('share-apps-tags');
@@ -773,7 +796,7 @@ class MacBrewApp {
       if (selectedApps.length > 0) {
         tagsContainer.innerHTML = selectedApps.map(app => `
           <span class="share-app-tag">
-            <span>${app.icon || '🍺'}</span>
+            ${this.getAppIconHtml(app)}
             <span>${app.name}</span>
           </span>
         `).join('');
