@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacBrew — El instalador definitivo de aplicaciones para macOS</title>
+  <meta name="description" content="Selecciona tus aplicaciones de Mac favoritas y genera al instante un comando de Terminal, Brewfile o script de instalación con Homebrew.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍺</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Header section -->
+    <header class="navbar">
+      <div class="container navbar-content">
+        <div class="brand">
+          <div class="brand-icon">🍺</div>
+          <div class="brand-text">
+            <span class="brand-name">MacBrew</span>
+            <span class="brand-tag">v1.0</span>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search-input" placeholder="Buscar app, editor, utilidad (ej: VS Code, Docker, Slack)..." autocomplete="off">
+          <button id="clear-search" class="clear-btn hidden" aria-label="Limpiar búsqueda">&times;</button>
+        </div>
+
+        <div class="header-actions">
+          <a href="docs.html" class="btn btn-secondary" title="Ver documentación de uso de MacBrew y Homebrew">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Documentación</span>
+          </a>
+          <button id="share-btn" class="btn btn-primary" title="Copiar enlace con la selección actual">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            <span>Compartir</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero / Presets banner -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-header">
+          <h1>Instala todo tu software de Mac en <span>bloque</span></h1>
+          <p>Selecciona tus aplicaciones preferidas y obtén tu script ejecutable o Brewfile al instante usando Homebrew.</p>
+        </div>
+
+        <!-- Presets selection bar -->
+        <div class="presets-wrapper">
+          <span class="presets-label">Selección rápida:</span>
+          <div class="presets-pills" id="presets-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main catalog section -->
+    <main class="container catalog-container" id="catalog">
+      <!-- Category groups rendered dynamically -->
+    </main>
+
+    <!-- Sticky Bottom Bar -->
+    <div id="floating-bar" class="floating-bar hidden">
+      <div class="container floating-bar-content">
+        <div class="selection-summary">
+          <div class="badge-count" id="selected-count">0</div>
+          <div class="summary-text">
+            <strong id="summary-title">0 aplicaciones seleccionadas</strong>
+            <span id="summary-subtitle">Listas para instalar</span>
+          </div>
+        </div>
+
+        <div class="floating-actions">
+          <button id="quick-copy-cmd" class="btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <span>Copiar Comando</span>
+          </button>
+          <button id="open-modal-btn" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+            <span>Obtener Instalador</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title">Tu Instalador MacBrew</h2>
+            <p class="modal-subtitle">Elige el formato de instalación que prefieras</p>
+          </div>
+          <button id="close-modal-btn" class="close-modal-btn">&times;</button>
+        </div>
+
+        <!-- Modal Tabs -->
+        <div class="modal-tabs">
+          <button class="tab-btn active" data-tab="oneliner">Comando de Terminal</button>
+          <button class="tab-btn" data-tab="brewfile">Brewfile</button>
+          <button class="tab-btn" data-tab="script">Script Bash (install.sh)</button>
+        </div>
+
+        <!-- Tab 1: One-liner -->
+        <div class="tab-content active" id="tab-oneliner">
+          <p class="tab-desc">Copia este comando y pégalo directamente en la aplicación Terminal de tu Mac:</p>
+          <div class="code-box">
+            <pre><code id="code-oneliner">brew install ...</code></pre>
+            <button class="copy-code-btn" data-target="code-oneliner">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Brewfile -->
+        <div class="tab-content" id="tab-brewfile">
+          <p class="tab-desc">Formato estándar de Homebrew Bundle. Guárdalo como <code>Brewfile</code> y ejecuta <code>brew bundle</code>:</p>
+          <div class="code-box">
+            <pre><code id="code-brewfile">cask "google-chrome"...</code></pre>
+            <button class="copy-code-btn" data-target="code-brewfile">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+          <div class="modal-footer-actions">
+            <button id="download-brewfile-btn" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Descargar Brewfile</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 3: Script -->
+        <div class="tab-content" id="tab-script">
+          <p class="tab-desc">Script ejecutable independiente. Verifica e instala Homebrew automáticamente si no está disponible:</p>
+          
+          <!-- Script options -->
+          <div class="script-options">
+            <label class="option-checkbox">
+              <input type="checkbox" id="opt-autobrew" checked>
+              <span>Instalar Homebrew automáticamente si falta</span>
+            </label>
+            <label class="option-checkbox">
+              <input type="checkbox" id="opt-noquarantine" checked>
+              <span>Ignorar cuarentena de macOS (<code>--no-quarantine</code>)</span>
+            </label>
+            <label class="option-checkbox">
+              <input type="checkbox" id="opt-cleanup" checked>
+              <span>Ejecutar <code>brew cleanup</code> al finalizar</span>
+            </label>
+            <label class="option-checkbox">
+              <input type="checkbox" id="opt-upgrade">
+              <span>Actualizar paquetes preexistentes (<code>brew upgrade</code>)</span>
+            </label>
+          </div>
+
+          <div class="code-box script-box">
+            <pre><code id="code-script">#!/bin/bash...</code></pre>
+            <button class="copy-code-btn" data-target="code-script">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+
+          <div class="modal-footer-actions">
+            <button id="download-script-btn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Descargar install.sh</span>
+            </button>
+            <span class="curl-tip">O ejecuta directamente: <code>curl -sSL https://macbrew.app/install.sh | bash</code></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Toast Notification container -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <!-- App logic -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
