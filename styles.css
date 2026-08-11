@@ -1212,17 +1212,42 @@ body {
 }
 
 /* ==========================================================================
-   Light Mode Theme Overrides
+   Subtle Theme Toggle Button
+   ========================================================================== */
+
+.theme-toggle-btn, #theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.theme-toggle-btn:hover, #theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Light Mode Theme Overrides & High Contrast Enhancements
    ========================================================================== */
 
 html.light, body.light, [data-theme="light"] {
   --bg-dark: #f8fafc;
-  --bg-card: rgba(255, 255, 255, 0.88);
-  --bg-card-hover: rgba(255, 255, 255, 0.98);
-  --bg-card-selected: rgba(240, 249, 255, 0.95);
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-card-selected: #f0f9ff;
 
-  --border-color: rgba(203, 213, 225, 0.7);
-  --border-active: rgba(2, 132, 199, 0.6);
+  --border-color: #cbd5e1;
+  --border-active: #0284c7;
   --border-glow: rgba(2, 132, 199, 0.2);
 
   --accent-cyan: #0284c7;
@@ -1232,75 +1257,267 @@ html.light, body.light, [data-theme="light"] {
   --accent-amber: #d97706;
 
   --text-main: #0f172a;
-  --text-muted: #475569;
+  --text-muted: #334155;
   --text-subtle: #64748b;
 
   --glass-backdrop: blur(16px) saturate(160%);
 }
 
 body.light {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  background-color: #f8fafc;
+  color: #0f172a;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(79, 70, 229, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.05) 0%, transparent 60%);
+    radial-gradient(circle at 15% 15%, rgba(2, 132, 199, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(79, 70, 229, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.04) 0%, transparent 60%);
 }
 
 body.light .navbar {
-  background: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+body.light .brand-name {
+  color: #0f172a;
+}
+
+body.light .brand-tag {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
+body.light .theme-toggle-btn, body.light #theme-toggle-btn {
+  background: rgba(241, 245, 249, 0.9);
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+body.light .theme-toggle-btn:hover, body.light #theme-toggle-btn:hover {
+  background: #e2e8f0;
+  color: #0284c7;
+  border-color: #0284c7;
 }
 
 body.light .search-container input,
 body.light .callout-search-inline input,
 body.light .custom-input-group input {
-  background: rgba(241, 245, 249, 0.9);
-  border-color: rgba(203, 213, 225, 0.8);
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+body.light .search-container input::placeholder,
+body.light .callout-search-inline input::placeholder,
+body.light .custom-input-group input::placeholder {
+  color: #94a3b8;
+}
+
+body.light .search-container input:focus,
+body.light .callout-search-inline input:focus,
+body.light .custom-input-group input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.25);
+}
+
+body.light .search-icon,
+body.light .clear-btn {
+  color: #64748b;
+}
+
+body.light .btn-secondary {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+body.light .btn-secondary:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+body.light .btn-outline {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+body.light .btn-outline:hover {
+  background: #f8fafc;
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+body.light .hero-header h1 {
   color: #0f172a;
 }
 
+body.light .hero-header p {
+  color: #475569;
+}
+
+body.light .presets-label {
+  color: #64748b;
+}
+
+body.light .preset-pill {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+body.light .preset-pill:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+body.light .preset-pill.active {
+  background: rgba(2, 132, 199, 0.1);
+  border-color: #0284c7;
+  color: #0284c7;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+}
+
+body.light .category-title {
+  color: #0f172a;
+}
+
+body.light .select-all-btn {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.3);
+  color: #0284c7;
+}
+
+body.light .select-all-btn:hover {
+  background: rgba(2, 132, 199, 0.16);
+}
+
 body.light .app-card {
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+body.light .app-card:hover {
+  border-color: #0284c7;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.14);
 }
 
 body.light .app-card.selected {
-  border-color: var(--accent-cyan);
-  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.18);
+  background: #f0f9ff;
+  border-color: #0284c7;
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.18);
+}
+
+body.light .app-name {
+  color: #0f172a;
+}
+
+body.light .app-desc {
+  color: #475569;
+}
+
+body.light .app-type-badge.type-cask {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+body.light .app-type-badge.type-formula {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+body.light .checkbox-custom {
+  border-color: #cbd5e1;
+  background: #ffffff;
+}
+
+body.light .app-card.selected .checkbox-custom {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
 }
 
 body.light .modal-card,
 body.light .floating-bar-content,
-body.light .callout-glass-card {
-  background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(226, 232, 240, 0.9);
+body.light .callout-glass-card,
+body.light .universal-search-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-body.light .preset-pill {
-  background: rgba(241, 245, 249, 0.9);
-  border-color: rgba(203, 213, 225, 0.8);
-  color: var(--text-muted);
+body.light .callout-text-group h3,
+body.light .universal-card-header h3 {
+  color: #0f172a;
 }
 
-body.light .preset-pill:hover {
-  background: rgba(226, 232, 240, 0.95);
-  color: var(--text-main);
+body.light .callout-text-group p,
+body.light .universal-card-header p {
+  color: #475569;
 }
 
-body.light .preset-pill.active {
-  background: rgba(2, 132, 199, 0.12);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+body.light #summary-title {
+  color: #0f172a;
+}
+
+body.light #summary-subtitle {
+  color: #475569;
+}
+
+body.light .modal-title {
+  color: #0f172a;
+}
+
+body.light .modal-subtitle {
+  color: #475569;
+}
+
+body.light .tab-btn {
+  color: #64748b;
+  border-color: transparent;
+}
+
+body.light .tab-btn:hover {
+  color: #0f172a;
+}
+
+body.light .tab-btn.active {
+  color: #0284c7;
+  border-bottom-color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+}
+
+body.light .tab-desc {
+  color: #334155;
+}
+
+body.light .option-checkbox {
+  color: #334155;
 }
 
 body.light .code-box pre {
   background: #0f172a;
   color: #f8fafc;
+  border: 1px solid #1e293b;
 }
 
 body.light .app-footer {
   background: #f1f5f9;
   border-top: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+body.light .footer-links a {
+  color: #475569;
+}
+
+body.light .footer-links a:hover {
+  color: #0284c7;
 }
