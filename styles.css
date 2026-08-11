@@ -1212,28 +1212,34 @@ body {
 }
 
 /* ==========================================================================
-   Subtle Theme Toggle Button
+   Fixed Floating Bottom-Right Theme Switcher Button
    ========================================================================== */
 
-.theme-toggle-btn, #theme-toggle-btn {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  display: inline-flex;
+.floating-theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(18, 26, 43, 0.85);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fbbf24;
+  display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 15px rgba(56, 189, 248, 0.2);
   cursor: pointer;
-  transition: var(--transition-fast);
+  z-index: 9999;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, border-color 0.2s ease;
 }
 
-.theme-toggle-btn:hover, #theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--accent-cyan);
+.floating-theme-toggle:hover {
+  transform: scale(1.12) rotate(8deg);
   border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
 }
 
 /* ==========================================================================
@@ -1278,26 +1284,37 @@ body.light .navbar {
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
 }
 
+/* High-Contrast MacBrew Logo in Light Mode */
 body.light .brand-name {
+  background: linear-gradient(135deg, #0f172a 40%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: #0f172a;
 }
 
+body.light .brand-icon {
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
+}
+
 body.light .brand-tag {
-  background: rgba(2, 132, 199, 0.1);
+  background: rgba(2, 132, 199, 0.12);
   color: #0284c7;
-  border-color: rgba(2, 132, 199, 0.3);
+  border-color: rgba(2, 132, 199, 0.35);
+  font-weight: 700;
 }
 
-body.light .theme-toggle-btn, body.light #theme-toggle-btn {
-  background: rgba(241, 245, 249, 0.9);
+body.light .floating-theme-toggle {
+  background: rgba(255, 255, 255, 0.95);
   border-color: #cbd5e1;
-  color: #475569;
+  color: #0284c7;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
 }
 
-body.light .theme-toggle-btn:hover, body.light #theme-toggle-btn:hover {
-  background: #e2e8f0;
-  color: #0284c7;
+body.light .floating-theme-toggle:hover {
+  background: #ffffff;
   border-color: #0284c7;
+  color: #2563eb;
+  transform: scale(1.12) rotate(-8deg);
 }
 
 body.light .search-container input,
@@ -1358,27 +1375,36 @@ body.light .hero-header p {
   color: #475569;
 }
 
+body.light .presets-wrapper {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
 body.light .presets-label {
-  color: #64748b;
+  color: #0284c7;
+  font-weight: 700;
 }
 
 body.light .preset-pill {
-  background: #ffffff;
+  background: #f8fafc;
   border-color: #cbd5e1;
-  color: #475569;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  color: #334155;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.03);
 }
 
 body.light .preset-pill:hover {
-  background: #f8fafc;
-  color: #0f172a;
-  border-color: #94a3b8;
+  background: #ffffff;
+  color: #0284c7;
+  border-color: #0284c7;
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.12);
 }
 
 body.light .preset-pill.active {
-  background: rgba(2, 132, 199, 0.1);
+  background: rgba(2, 132, 199, 0.12);
   border-color: #0284c7;
   color: #0284c7;
+  font-weight: 600;
   box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
 }
 

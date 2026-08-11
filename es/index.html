@@ -35,10 +35,6 @@
         </div>
 
         <div class="header-actions">
-          <button id="theme-toggle-btn" class="btn btn-outline" title="Cambiar Tema Claro / Oscuro">
-            <!-- Rendered dynamically -->
-          </button>
-
           <a href="docs.html" class="btn btn-secondary" title="Ver documentación de uso de MacBrew y Homebrew">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             <span>Documentación</span>
@@ -211,6 +207,9 @@
     <!-- Toast Notification container -->
     <div id="toast-container" class="toast-container"></div>
   </div>
+
+  <!-- Floating Theme Switcher Button -->
+  <button class="floating-theme-toggle" aria-label="Toggle theme" title="Cambiar Tema Claro / Oscuro"></button>
 
   <!-- App logic -->
   <script type="module" src="../js/app.js"></script>
