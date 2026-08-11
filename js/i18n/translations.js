@@ -1,0 +1,131 @@
+// MacBrew Bilingual Internationalization (i18n) Translations (en & es)
+
+export const TRANSLATIONS = {
+  en: {
+    metaTitle: 'MacBrew — Bulk App Installer for macOS',
+    metaDesc: 'Visually select macOS apps & developer tools, then instantly generate terminal commands, official Brewfiles, or automated bash install scripts powered by Homebrew.',
+    brandTag: 'v1.0',
+    searchPlaceholder: 'Search apps, editors, utilities (e.g. VS Code, Docker, Slack)...',
+    shareBtn: 'Share',
+    docsBtn: 'Documentation',
+    heroTitle: 'Install all your Mac software in <span>bulk</span>',
+    heroSubtitle: 'Select your favorite apps and get your executable script or official Brewfile instantly using Homebrew.',
+    presetsLabel: 'Quick Select:',
+    selectAll: 'Select category',
+    deselectAll: 'Deselect category',
+    noResultsFound: 'No apps found',
+    noResultsSub: 'Try searching for other terms like "VS Code", "Slack" or "Docker".',
+    selectedAppsTitle: '{count} app{s} selected',
+    selectedAppsSub: 'Ready to install with Homebrew',
+    quickCopyCmd: 'Copy Command',
+    getInstaller: 'Get Installer',
+    modalTitle: 'Your MacBrew Installer',
+    modalSubtitle: 'Choose your preferred installation format',
+    tabOneLiner: 'Terminal Command',
+    tabBrewfile: 'Brewfile',
+    tabScript: 'Bash Script (install.sh)',
+    onelinerDesc: 'Copy and paste this command directly into your macOS Terminal:',
+    brewfileDesc: 'Official Homebrew Bundle format. Save it as <code>Brewfile</code> and run <code>brew bundle</code>:',
+    scriptDesc: 'Standalone executable script. Automatically checks and installs Homebrew if not found:',
+    optAutoBrew: 'Automatically install Homebrew if missing',
+    optNoQuarantine: 'Bypass macOS Gatekeeper quarantine (<code>--no-quarantine</code>)',
+    optCleanup: 'Run <code>brew cleanup</code> after installation',
+    optUpgrade: 'Upgrade pre-existing packages (<code>brew upgrade</code>)',
+    downloadBrewfile: 'Download Brewfile',
+    downloadScript: 'Download install.sh',
+    curlTip: 'Or run directly: <code>curl -sSL https://macbrew.app/install.sh | bash</code>',
+    toastCopied: 'Copied to clipboard!',
+    toastDownloaded: '{file} downloaded',
+    toastShareCopied: 'Selection link copied to clipboard!',
+
+    // Universal Homebrew Search
+    universalTitle: 'Search or add any Homebrew package (11,000+ available)',
+    universalSubtitle: 'Can\'t find an app in the featured catalog? Add it by its exact Homebrew name (e.g. <code>ffmpeg</code>, <code>neovim</code>, <code>htop</code>, <code>tmux</code>, <code>nvm</code>).',
+    apiResultLabel: '✓ Found in official Homebrew API:',
+    addBtn: '+ Add',
+    addFormulaBtn: '+ Add Formula',
+    addCaskBtn: '+ Add Cask',
+
+    // Bottom Callout
+    calloutTitle: 'Can\'t find what you are looking for?',
+    calloutDesc: 'MacBrew can install <strong>any Homebrew package (11,000+ available)</strong>. Try searching by its name.',
+    calloutPlaceholder: 'Type app name (e.g. ffmpeg, htop, neovim)...',
+    calloutSearchBtn: 'Try Search Bar',
+
+    // Categories
+    categories: {
+      browsers: 'Web Browsers',
+      dev: 'Developer Tools',
+      messaging: 'Communication & Messaging',
+      productivity: 'Productivity & Notes',
+      media: 'Design & Multimedia',
+      utilities: 'Utilities & System',
+      cli: 'CLI Tools & Runtimes',
+      custom: 'Custom Homebrew Packages'
+    }
+  },
+
+  es: {
+    metaTitle: 'MacBrew — El instalador definitivo de aplicaciones para macOS',
+    metaDesc: 'Selecciona tus aplicaciones de Mac favoritas y genera al instante un comando de Terminal, Brewfile o script de instalación con Homebrew.',
+    brandTag: 'v1.0',
+    searchPlaceholder: 'Buscar app, editor, utilidad (ej: VS Code, Docker, Slack)...',
+    shareBtn: 'Compartir',
+    docsBtn: 'Documentación',
+    heroTitle: 'Instala todo tu software de Mac en <span>bloque</span>',
+    heroSubtitle: 'Selecciona tus aplicaciones preferidas y obtén tu script ejecutable o Brewfile al instante usando Homebrew.',
+    presetsLabel: 'Selección rápida:',
+    selectAll: 'Seleccionar categoría',
+    deselectAll: 'Desmarcar categoría',
+    noResultsFound: 'No se encontraron aplicaciones',
+    noResultsSub: 'Intenta buscar con otros términos como "VS Code", "Slack" o "Docker".',
+    selectedAppsTitle: '{count} aplicación{s} seleccionada{s}',
+    selectedAppsSub: 'Lista{s} para instalar con Homebrew',
+    quickCopyCmd: 'Copiar Comando',
+    getInstaller: 'Obtener Instalador',
+    modalTitle: 'Tu Instalador MacBrew',
+    modalSubtitle: 'Elige el formato de instalación que prefieras',
+    tabOneLiner: 'Comando de Terminal',
+    tabBrewfile: 'Brewfile',
+    tabScript: 'Script Bash (install.sh)',
+    onelinerDesc: 'Copia este comando y pégalo directamente en la aplicación Terminal de tu Mac:',
+    brewfileDesc: 'Formato estándar de Homebrew Bundle. Guárdalo como <code>Brewfile</code> y ejecuta <code>brew bundle</code>:',
+    scriptDesc: 'Script ejecutable independiente. Verifica e instala Homebrew automáticamente si no está disponible:',
+    optAutoBrew: 'Instalar Homebrew automáticamente si falta',
+    optNoQuarantine: 'Ignorar cuarentena de macOS (<code>--no-quarantine</code>)',
+    optCleanup: 'Ejecutar <code>brew cleanup</code> al finalizar',
+    optUpgrade: 'Actualizar paquetes preexistentes (<code>brew upgrade</code>)',
+    downloadBrewfile: 'Descargar Brewfile',
+    downloadScript: 'Descargar install.sh',
+    curlTip: 'O ejecuta directamente: <code>curl -sSL https://macbrew.app/install.sh | bash</code>',
+    toastCopied: '¡Copiado al portapapeles!',
+    toastDownloaded: 'Archivo {file} descargado',
+    toastShareCopied: '¡Enlace de selección copiado para compartir!',
+
+    // Universal Homebrew Search
+    universalTitle: 'Añadir cualquier paquete de Homebrew (11,000+ disponibles)',
+    universalSubtitle: '¿Buscas un paquete que no está en el catálogo? Añádelo por su nombre en Homebrew (ej: <code>ffmpeg</code>, <code>neovim</code>, <code>htop</code>, <code>tmux</code>, <code>nvm</code>).',
+    apiResultLabel: '✓ Encontrado en la API oficial de Homebrew:',
+    addBtn: '+ Añadir',
+    addFormulaBtn: '+ Añadir Formula',
+    addCaskBtn: '+ Añadir Cask',
+
+    // Bottom Callout
+    calloutTitle: '¿No encuentras lo que buscas en el catálogo?',
+    calloutDesc: 'MacBrew puede instalar <strong>cualquier aplicación o herramienta de Homebrew (11,000+ paquetes disponibles)</strong>. Prueba a buscar por su nombre.',
+    calloutPlaceholder: 'Escribe el nombre de la app (ej: ffmpeg, htop, neovim)...',
+    calloutSearchBtn: 'Probar Buscador',
+
+    // Categories
+    categories: {
+      browsers: 'Navegadores Web',
+      dev: 'Herramientas de Desarrollo',
+      messaging: 'Comunicación y Mensajería',
+      productivity: 'Productividad y Notas',
+      media: 'Diseño y Multimedia',
+      utilities: 'Utilidades y Sistema',
+      cli: 'CLI Tools & Runtimes',
+      custom: 'Paquetes Personalizados de Homebrew'
+    }
+  }
+};

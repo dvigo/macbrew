@@ -1,14 +1,19 @@
-// MacBrew Main Application Logic
+// MacBrew Main Application Logic with i18n (English & Spanish)
 
 import { CATEGORIES, APPS } from './data/apps.js';
 import { PRESETS } from './data/presets.js';
 import { APP_ICONS } from './data/icons.js';
+import { TRANSLATIONS } from './i18n/translations.js';
 import { generateOneLiner, generateBrewfile, generateInstallScript } from './utils/generator.js';
 
 class MacBrewApp {
   constructor() {
+    // Detect active page language ('en' or 'es')
+    const htmlLang = document.documentElement.lang;
+    this.lang = (htmlLang === 'es' || window.location.pathname.startsWith('/es')) ? 'es' : 'en';
+
     this.selectedAppIds = new Set();
-    this.customApps = new Map(); // Store user-added custom Homebrew packages
+    this.customApps = new Map();
     this.searchQuery = '';
     this.activePreset = null;
     this.activeTab = 'oneliner';
@@ -47,6 +52,19 @@ class MacBrewApp {
   }
 
   /**
+   * Helper translation function
+   */
+  t(key, params = {}) {
+    const dict = TRANSLATIONS[this.lang] || TRANSLATIONS.en;
+    let str = dict[key] || TRANSLATIONS.en[key] || key;
+    
+    Object.keys(params).forEach(pKey => {
+      str = str.replace(new RegExp(`\\{${pKey}\\}`, 'g'), params[pKey]);
+    });
+    return str;
+  }
+
+  /**
    * Returns merged array of curated APPS and user custom added apps
    */
   getAllApps() {
@@ -56,25 +74,27 @@ class MacBrewApp {
   /**
    * Add custom Homebrew formula or cask package
    */
-  addCustomPackage(brewName, type = 'formula', description = 'Paquete de Homebrew personalizado') {
+  addCustomPackage(brewName, type = 'formula', description = null) {
     const cleanName = brewName.trim().toLowerCase();
     if (!cleanName) return;
 
     const id = `custom-${cleanName.replace(/[^a-z0-9-]/g, '')}`;
+    const descText = description || (this.lang === 'es' ? 'Paquete de Homebrew personalizado' : 'Custom Homebrew package');
+
     const customApp = {
       id,
       name: cleanName,
       type,
       brew: cleanName,
       category: 'custom',
-      description,
+      description: { en: descText, es: descText },
       color: type === 'cask' ? '#38bdf8' : '#10b981',
       symbol: type === 'cask' ? '🖥️' : '⚙️'
     };
 
     this.customApps.set(id, customApp);
     this.selectedAppIds.add(id);
-    this.showToast(`Paquete "${cleanName}" añadido como ${type}`);
+    this.showToast(this.lang === 'es' ? `Paquete "${cleanName}" añadido` : `Package "${cleanName}" added`);
     this.updateUIState();
     this.renderCatalog();
   }
@@ -91,11 +111,10 @@ class MacBrewApp {
         if (APPS.some(app => app.id === id)) {
           this.selectedAppIds.add(id);
         } else if (id.startsWith('cask:') || id.startsWith('brew:')) {
-          // Format custom: "cask:vlc" or "brew:ffmpeg"
           const parts = id.split(':');
           const type = parts[0] === 'cask' ? 'cask' : 'formula';
           const name = parts[1];
-          this.addCustomPackage(name, type, 'Añadido desde enlace compartido');
+          this.addCustomPackage(name, type, 'Added via share link');
         }
       });
     }
@@ -125,11 +144,15 @@ class MacBrewApp {
    * Render Preset Pill Buttons
    */
   renderPresets() {
-    this.presetsContainerEl.innerHTML = PRESETS.map(preset => `
-      <button class="preset-pill ${this.activePreset === preset.id ? 'active' : ''}" data-preset-id="${preset.id}" title="${preset.description}">
-        ${preset.name}
-      </button>
-    `).join('');
+    this.presetsContainerEl.innerHTML = PRESETS.map(preset => {
+      const pName = typeof preset.name === 'object' ? (preset.name[this.lang] || preset.name.en) : preset.name;
+      const pDesc = typeof preset.description === 'object' ? (preset.description[this.lang] || preset.description.en) : preset.description;
+      return `
+        <button class="preset-pill ${this.activePreset === preset.id ? 'active' : ''}" data-preset-id="${preset.id}" title="${pDesc}">
+          ${pName}
+        </button>
+      `;
+    }).join('');
   }
 
   /**
@@ -154,7 +177,7 @@ class MacBrewApp {
           brew: data.token,
           name: (data.name && data.name[0]) || data.token,
           type: 'cask',
-          desc: data.desc || 'Cask oficial de Homebrew'
+          desc: data.desc || (this.lang === 'es' ? 'Cask oficial de Homebrew' : 'Official Homebrew Cask')
         });
       }
       if (formulaRes && formulaRes.ok) {
@@ -163,7 +186,7 @@ class MacBrewApp {
           brew: data.name,
           name: data.name,
           type: 'formula',
-          desc: data.desc || 'Formula oficial de Homebrew'
+          desc: data.desc || (this.lang === 'es' ? 'Formula oficial de Homebrew' : 'Official Homebrew Formula')
         });
       }
 
@@ -185,16 +208,22 @@ class MacBrewApp {
     // Filter apps by search
     const filteredApps = allApps.filter(app => {
       if (!query) return true;
+      const desc = typeof app.description === 'object' ? (app.description[this.lang] || app.description.en) : app.description;
       return (
         app.name.toLowerCase().includes(query) ||
         app.brew.toLowerCase().includes(query) ||
-        app.description.toLowerCase().includes(query)
+        desc.toLowerCase().includes(query)
       );
     });
 
-    const categoriesToRender = [...CATEGORIES];
+    const categoriesToRender = CATEGORIES.map(cat => ({
+      ...cat,
+      localizedName: typeof cat.name === 'object' ? (cat.name[this.lang] || cat.name.en) : cat.name
+    }));
+
     if (this.customApps.size > 0) {
-      categoriesToRender.unshift({ id: 'custom', name: 'Paquetes Personalizados de Homebrew', icon: '⭐' });
+      const customCatName = this.t('categories.custom');
+      categoriesToRender.unshift({ id: 'custom', localizedName: customCatName, icon: '⭐' });
     }
 
     // Build Universal Homebrew Search / Custom Add card HTML
@@ -204,14 +233,14 @@ class MacBrewApp {
           <div class="universal-card-header">
             <span class="universal-icon">🌐</span>
             <div>
-              <h3>Buscar o añadir cualquier paquete de Homebrew (11,000+ disponibles)</h3>
-              <p>Si no encuentras el paquete en el catálogo destacado, puedes añadirlo por su nombre en Homebrew (ej: <code>ffmpeg</code>, <code>neovim</code>, <code>htop</code>, <code>tmux</code>, <code>nvm</code>).</p>
+              <h3>${this.t('universalTitle')}</h3>
+              <p>${this.t('universalSubtitle')}</p>
             </div>
           </div>
 
           ${this.brewApiResults.length > 0 ? `
             <div class="brew-api-results">
-              <span class="api-results-label">✓ Encontrado en la API oficial de Homebrew:</span>
+              <span class="api-results-label">${this.t('apiResultLabel')}</span>
               <div class="apps-grid">
                 ${this.brewApiResults.map(res => `
                   <div class="app-card api-result-card" data-api-brew="${res.brew}" data-api-type="${res.type}" data-api-desc="${res.desc}">
@@ -228,7 +257,7 @@ class MacBrewApp {
                       <p class="app-desc">${res.desc}</p>
                     </div>
                     <button class="btn btn-primary btn-sm add-api-pkg-btn">
-                      + Añadir
+                      ${this.t('addBtn')}
                     </button>
                   </div>
                 `).join('')}
@@ -238,12 +267,12 @@ class MacBrewApp {
 
           <div class="custom-add-box">
             <div class="custom-input-group">
-              <input type="text" id="custom-pkg-input" value="${query}" placeholder="Nombre del paquete (ej: ffmpeg, neovim, htop)...">
+              <input type="text" id="custom-pkg-input" value="${query}" placeholder="${this.t('calloutPlaceholder')}">
               <button id="add-as-formula-btn" class="btn btn-secondary">
-                <span>+ Añadir Formula</span>
+                <span>${this.t('addFormulaBtn')}</span>
               </button>
               <button id="add-as-cask-btn" class="btn btn-outline">
-                <span>+ Añadir Cask</span>
+                <span>${this.t('addCaskBtn')}</span>
               </button>
             </div>
           </div>
@@ -255,7 +284,7 @@ class MacBrewApp {
     if (query && filteredApps.length === 0) {
       this.catalogEl.innerHTML = `
         <div class="search-top-banner">
-          <h2>🔍 "${query}" no está en el catálogo destacado</h2>
+          <h2>🔍 "${query}"</h2>
         </div>
         ${universalCardHtml}
       `;
@@ -274,10 +303,10 @@ class MacBrewApp {
           <div class="category-header">
             <h2 class="category-title">
               <span class="category-icon">${category.icon}</span>
-              <span>${category.name}</span>
+              <span>${category.localizedName}</span>
             </h2>
             <button class="select-all-btn" data-category-id="${category.id}">
-              ${allCategorySelected ? 'Desmarcar categoría' : 'Seleccionar categoría'}
+              ${allCategorySelected ? this.t('deselectAll') : this.t('selectAll')}
             </button>
           </div>
 
@@ -295,16 +324,16 @@ class MacBrewApp {
           <div class="callout-content">
             <div class="callout-icon-badge">💡</div>
             <div class="callout-text-group">
-              <h3>¿No encuentras lo que buscas en el catálogo?</h3>
-              <p>MacBrew puede instalar <strong>cualquier aplicación o herramienta de Homebrew (11,000+ paquetes disponibles)</strong>. Prueba a buscar por su nombre.</p>
+              <h3>${this.t('calloutTitle')}</h3>
+              <p>${this.t('calloutDesc')}</p>
             </div>
           </div>
           <div class="callout-action-group">
             <div class="callout-search-inline">
-              <input type="text" id="callout-inline-search" placeholder="Escribe el nombre de la app (ej: ffmpeg, htop, neovim)..." autocomplete="off">
+              <input type="text" id="callout-inline-search" placeholder="${this.t('calloutPlaceholder')}" autocomplete="off">
               <button id="callout-search-btn" class="btn btn-primary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                <span>Probar Buscador</span>
+                <span>${this.t('calloutSearchBtn')}</span>
               </button>
             </div>
           </div>
@@ -312,7 +341,6 @@ class MacBrewApp {
       </section>
     `;
 
-    // If searching, append compact universal card below matching results
     if (query) {
       catalogHtml = catalogHtml + universalCardHtml;
     } else {
@@ -329,6 +357,7 @@ class MacBrewApp {
     const isSelected = this.selectedAppIds.has(app.id);
     const color = app.color || '#38bdf8';
     const symbol = app.symbol || app.name.charAt(0);
+    const descText = typeof app.description === 'object' ? (app.description[this.lang] || app.description.en) : app.description;
 
     let iconContent = '';
     if (app.icon && app.icon.startsWith('http')) {
@@ -359,7 +388,7 @@ class MacBrewApp {
             <h3 class="app-name">${app.name}</h3>
             <span class="app-type-badge ${app.type === 'cask' ? 'type-cask' : 'type-formula'}">${app.type}</span>
           </div>
-          <p class="app-desc">${app.description}</p>
+          <p class="app-desc">${descText}</p>
         </div>
         <div class="checkbox-custom" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -422,6 +451,7 @@ class MacBrewApp {
         }
         return;
       }
+
       // Add custom formula
       if (e.target.closest('#add-as-formula-btn')) {
         const input = document.getElementById('custom-pkg-input');
@@ -513,7 +543,7 @@ class MacBrewApp {
     document.getElementById('quick-copy-cmd').addEventListener('click', () => {
       const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
       const cmd = generateOneLiner(selectedApps);
-      this.copyToClipboard(cmd, '¡Comando copiado al portapapeles!');
+      this.copyToClipboard(cmd, this.t('toastCopied'));
     });
 
     // Open Modal
@@ -555,7 +585,7 @@ class MacBrewApp {
       btn.addEventListener('click', (e) => {
         const targetId = e.currentTarget.dataset.target;
         const codeText = document.getElementById(targetId).textContent;
-        this.copyToClipboard(codeText, '¡Código copiado al portapapeles!');
+        this.copyToClipboard(codeText, this.t('toastCopied'));
       });
     });
 
@@ -587,7 +617,7 @@ class MacBrewApp {
     // Share Button
     this.shareBtnEl.addEventListener('click', () => {
       this.syncStateToURL();
-      this.copyToClipboard(window.location.href, '¡Enlace de selección copiado para compartir!');
+      this.copyToClipboard(window.location.href, this.t('toastShareCopied'));
     });
   }
 
@@ -600,8 +630,9 @@ class MacBrewApp {
 
     if (count > 0) {
       this.floatingBarEl.classList.remove('hidden');
-      this.summaryTitleEl.textContent = `${count} paquete${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}`;
-      this.summarySubtitleEl.textContent = `Listo${count > 1 ? 's' : ''} para instalar con Homebrew`;
+      const pluralS = count > 1 ? (this.lang === 'es' ? 's' : 's') : '';
+      this.summaryTitleEl.textContent = this.t('selectedAppsTitle', { count, s: pluralS });
+      this.summarySubtitleEl.textContent = this.t('selectedAppsSub', { s: pluralS });
     } else {
       this.floatingBarEl.classList.add('hidden');
     }
@@ -635,7 +666,7 @@ class MacBrewApp {
   /**
    * Copy text to clipboard and show toast
    */
-  async copyToClipboard(text, message = 'Copiado al portapapeles') {
+  async copyToClipboard(text, message = 'Copied to clipboard') {
     try {
       await navigator.clipboard.writeText(text);
       this.showToast(message);
@@ -661,7 +692,7 @@ class MacBrewApp {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    this.showToast(`Archivo ${filename} descargado`);
+    this.showToast(this.t('toastDownloaded', { file: filename }));
   }
 
   /**

@@ -249,10 +249,25 @@ body {
   background: transparent;
   color: var(--text-main);
   border-color: var(--border-color);
+  text-decoration: none;
 }
 
 .btn-outline:hover {
   background: rgba(255, 255, 255, 0.06);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.lang-switcher {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 0.55rem 0.85rem;
+  letter-spacing: 0.05em;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+}
+
+.lang-switcher:hover {
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
 }

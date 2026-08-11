@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación — MacBrew (Guía de Uso y Homebrew)</title>
+  <meta name="description" content="Aprende a usar MacBrew para instalar aplicaciones en bloque en macOS utilizando Homebrew, Brewfiles y scripts automatizados.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍺</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar Header -->
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🍺</div>
+          <div class="brand-text">
+            <span class="brand-name">MacBrew</span>
+            <span class="brand-tag">Docs</span>
+          </div>
+        </a>
+
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Generador</span>
+          </a>
+          <a href="docs.html" class="nav-link active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Documentación</span>
+          </a>
+          <a href="../docs.html" class="nav-link lang-switcher" title="Cambiar idioma a Inglés">
+            <span>🌐 EN</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Docs Layout -->
+    <div class="container docs-layout">
+      <!-- Sidebar Navigation -->
+      <aside class="docs-sidebar">
+        <nav class="sidebar-nav">
+          <span class="sidebar-title">Contenido</span>
+          <a href="#introduccion" class="sidebar-link active">1. Introducción a MacBrew</a>
+          <a href="#homebrew-conceptos" class="sidebar-link">2. Casks vs Formulas</a>
+          <a href="#pasos-uso" class="sidebar-link">3. Guía de Uso Paso a Paso</a>
+          <a href="#formatos-exportacion" class="sidebar-link">4. Formatos de Exportación</a>
+          <a href="#opciones-avanzadas" class="sidebar-link">5. Opciones Avanzadas</a>
+          <a href="#compartir-equipos" class="sidebar-link">6. Compartir en Equipo</a>
+          <a href="#faq" class="sidebar-link">7. Preguntas Frecuentes</a>
+        </nav>
+      </aside>
+
+      <!-- Main Docs Content -->
+      <main class="docs-content">
+        <!-- Section 1 -->
+        <section id="introduccion" class="docs-section">
+          <h1>Documentación y Guía de Uso de <span>MacBrew</span></h1>
+          <p class="lead">MacBrew es la herramienta definitiva para automatizar la configuración inicial de cualquier Mac nuevo o migración de equipo mediante Homebrew.</p>
+          
+          <div class="info-card">
+            <div class="info-card-icon">💡</div>
+            <div>
+              <strong>¿Por qué usar MacBrew?</strong>
+              <p>Evita descargar manualmente decenas de archivos <code>.dmg</code> o <code>.pkg</code> desde páginas web individuales. Con MacBrew, seleccionas lo que necesitas en una interfaz visual y obtienes un comando único o script ejecutable que instala todo automáticamente.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="homebrew-conceptos" class="docs-section">
+          <h2>2. ¿Qué es Homebrew, Cask y Formula?</h2>
+          <p>MacBrew genera instrucciones estandarizadas compatibles con <strong>Homebrew</strong>, el gestor de paquetes por excelencia para macOS.</p>
+          
+          <div class="concepts-grid">
+            <div class="concept-box">
+              <span class="badge type-cask">Cask</span>
+              <h3>Aplicaciones GUI</h3>
+              <p>Son programas con interfaz gráfica de usuario tradicionales de macOS (ej. <em>Google Chrome, Visual Studio Code, Slack, Spotify, Docker Desktop</em>).</p>
+              <code>brew install --cask google-chrome</code>
+            </div>
+
+            <div class="concept-box">
+              <span class="badge type-formula">Formula</span>
+              <h3>CLI Tools & Runtimes</h3>
+              <p>Son librerías, entornos de programación y herramientas de línea de comandos (ej. <em>Git, Node.js, Python, Go, ripgrep, jq</em>).</p>
+              <code>brew install git node python</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="pasos-uso" class="docs-section">
+          <h2>3. Guía de Uso Paso a Paso</h2>
+
+          <div class="steps-list">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-body">
+                <h3>Selecciona tus aplicaciones</h3>
+                <p>Navega por las categorías del catálogo o utiliza el buscador para marcar las aplicaciones que deseas instalar. Si prefieres un perfil rápido, utiliza los <strong>Presets</strong> en la parte superior (ej. <em>Full-Stack Dev, DevOps, Diseñador</em>).</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-body">
+                <h3>Revisa tu selección</h3>
+                <p>En la barra inferior flotante verás en todo momento el número de herramientas elegidas. Haz clic en el botón <strong>"Obtener Instalador"</strong> para abrir el panel de exportación.</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-body">
+                <h3>Elige tu formato de salida</h3>
+                <p>Puedes optar por copiar un comando rápido de Terminal, descargar un <code>Brewfile</code> estándar o descargar el script interactivo <code>install.sh</code>.</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-body">
+                <h3>Ejecuta en tu Terminal de Mac</h3>
+                <p>Abre la aplicación <strong>Terminal</strong> en tu Mac (<code>Cmd + Espacio</code> > escribir "Terminal") y pega el comando o ejecuta el script descargado.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="formatos-exportacion" class="docs-section">
+          <h2>4. Formatos de Exportación Explicados</h2>
+
+          <div class="format-card">
+            <h3>1. Comando de Terminal (One-Liner)</h3>
+            <p>Ideal si ya tienes Homebrew instalado y deseas lanzar la instalación de inmediato:</p>
+            <div class="code-box">
+              <pre><code>brew install --cask google-chrome visual-studio-code slack && brew install git node</code></pre>
+            </div>
+          </div>
+
+          <div class="format-card">
+            <h3>2. Brewfile (Homebrew Bundle)</h3>
+            <p>El estándar oficial para infraestructura como código en macOS. Puedes guardar este archivo en tu repositorio de configuración de puntos dotfiles:</p>
+            <div class="code-box">
+              <pre><code>tap "homebrew/cask"
+
+# Formulas
+brew "git"
+brew "node"
+
+# Casks
+cask "google-chrome"
+cask "visual-studio-code"
+cask "slack"</code></pre>
+            </div>
+            <p class="sub-text">Para ejecutar un Brewfile, sitúate en la carpeta donde está guardado y ejecuta:</p>
+            <div class="code-box">
+              <pre><code>brew bundle</code></pre>
+            </div>
+          </div>
+
+          <div class="format-card">
+            <h3>3. Script ejecutable <code>install.sh</code></h3>
+            <p>Script bash automatizado pensado para ordenadores nuevos. Incluye comprobación y auto-instalación de Homebrew si el sistema aún no lo tiene.</p>
+            <div class="code-box">
+              <pre><code>chmod +x install.sh
+./install.sh</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="opciones-avanzadas" class="docs-section">
+          <h2>5. Opciones Avanzadas del Script</h2>
+          <p>Al generar el script <code>install.sh</code>, puedes activar o desactivar las siguientes opciones:</p>
+
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Opción</th>
+                <th>Flag / Comando</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto-instalar Homebrew</strong></td>
+                <td><code>curl -fsSL .../install.sh</code></td>
+                <td>Detecta si `brew` existe. Si no está, lo descarga e instala automáticamente configurando la variable `PATH` según la arquitectura de la Mac (Apple Silicon `arm64` o Intel `x86_64`).</td>
+              </tr>
+              <tr>
+                <td><strong>Ignorar cuarentena</strong></td>
+                <td><code>--no-quarantine</code></td>
+                <td>Evita la advertencia emergente de macOS Gatekeeper al abrir aplicaciones de origen seguro instaladas via Homebrew.</td>
+              </tr>
+              <tr>
+                <td><strong>Limpieza final</strong></td>
+                <td><code>brew cleanup</code></td>
+                <td>Elimina los archivos `.dmg` y `.tar.gz` temporales descargados en la caché para ahorrar espacio en disco.</td>
+              </tr>
+              <tr>
+                <td><strong>Actualizar paquetes</strong></td>
+                <td><code>brew upgrade</code></td>
+                <td>Actualiza todas las aplicaciones preexistentes a su última versión antes de instalar las nuevas.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="compartir-equipos" class="docs-section">
+          <h2>6. Compartir Configuración en Equipo</h2>
+          <p>MacBrew permite guardar y compartir listas de aplicaciones a través de la URL sin necesidad de crear cuenta ni guardar en base de datos.</p>
+          <div class="info-card">
+            <div class="info-card-icon">🔗</div>
+            <div>
+              <strong>Enlace Dinámico de Selección</strong>
+              <p>Haz clic en el botón <strong>"Compartir"</strong> en la barra superior. Se copiará al portapapeles una URL con los parámetros codificados:</p>
+              <code>https://macbrew.app/?apps=visual-studio-code,docker,slack,git,node</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="faq" class="docs-section">
+          <h2>7. Preguntas Frecuentes (FAQ)</h2>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>¿MacBrew es gratis y de código abierto?</summary>
+              <p>Sí, MacBrew es totalmente gratuito y abierto. No requiere registro ni suscripción.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>¿Funciona en Mac con chip Apple Silicon (M1/M2/M3/M4)?</summary>
+              <p>Sí, al 100%. Homebrew instala automáticamente versiones nativas de ARM64 para Apple Silicon y de x86_64 para procesadores Intel.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>¿Qué ocurre si una aplicación ya está instalada?</summary>
+              <p>Homebrew la detectará y mostrará una advertencia indicando que la aplicación ya existe, continuando con el resto del listado sin interrumpir la instalación.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>¿Cómo desinstalar una aplicación instalada con Homebrew?</summary>
+              <p>Solo debes abrir la Terminal y ejecutar <code>brew uninstall --cask nombre-de-app</code> (o <code>brew uninstall nombre-de-formula</code>).</p>
+            </details>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
