@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — MacBrew</title>
+  <meta name="description" content="MacBrew is 100% cookie-free and tracker-free by design. Learn about our privacy commitment.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="docs.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍺</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar Header -->
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🍺</div>
+          <div class="brand-text">
+            <span class="brand-name">MacBrew</span>
+            <span class="brand-tag">Privacy</span>
+          </div>
+        </a>
+
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Generator</span>
+          </a>
+          <a href="docs.html" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Documentation</span>
+          </a>
+          <a href="es/privacy.html" class="nav-link lang-switcher" title="Switch language to Spanish">
+            <span>🌐 ES</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Privacy Content Layout -->
+    <div class="container docs-layout" style="grid-template-columns: 1fr; max-width: 860px;">
+      <main class="docs-content">
+        <section class="docs-section">
+          <h1>Privacy <span>Policy</span></h1>
+          <p class="lead">MacBrew is built on a fundamental principle: <strong>Privacy by Design</strong>. We respect your privacy and do not track you.</p>
+
+          <div class="info-card" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+            <div class="info-card-icon">🔒</div>
+            <div>
+              <strong style="color: #10B981;">100% Cookie-Free & Tracker-Free</strong>
+              <p>MacBrew uses zero cookies, zero local storage tracking, zero third-party analytics scripts, and zero advertising trackers.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section">
+          <h2>1. No Cookies of Any Kind</h2>
+          <p>We do not store, place, or access cookies on your browser. Because we do not use tracking cookies or personal data profiling, there are no annoying cookie banners or consent popups required on MacBrew.</p>
+        </section>
+
+        <section class="docs-section">
+          <h2>2. 100% Client-Side State & URL Sharing</h2>
+          <p>Your app selections stay entirely in your web browser. When you share a setup link, your selected packages are encoded strictly within the URL query string (e.g. <code>?apps=visual-studio-code,docker,slack</code>). No database or server-side user profiles are created.</p>
+        </section>
+
+        <section class="docs-section">
+          <h2>3. No Personal Data Collection</h2>
+          <p>We do not collect names, email addresses, IP logs, or device telemetry. MacBrew is a pure utility designed to generate commands and Brewfiles for your macOS terminal.</p>
+        </section>
+
+        <section class="docs-section">
+          <h2>4. Open & Transparent</h2>
+          <p>MacBrew is fully transparent and open source. You can inspect the source code anytime in our official <a href="https://github.com/dvigo/macbrew" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: underline;">GitHub repository</a>.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
