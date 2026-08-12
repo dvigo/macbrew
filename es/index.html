@@ -364,7 +364,7 @@
             </div>
             <p class="install-option-desc">Ejecuta este comando en la Terminal de tu Mac para instalar MacBrew directamente en tu carpeta de Aplicaciones:</p>
             <div class="share-input-wrapper">
-              <input type="text" id="brew-install-cmd-input" value="brew tap dvigo/macbrew https://github.com/dvigo/macbrew && brew install --cask macbrew" readonly>
+              <input type="text" id="brew-install-cmd-input" value="brew tap dvigo/macbrew https://github.com/dvigo/macbrew && brew install --cask --force macbrew" readonly>
               <button id="copy-brew-cask-cmd-btn" class="btn btn-primary share-copy-btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 <span>Copiar</span>
@@ -375,12 +375,12 @@
           <!-- Direct DMG Download Card -->
           <div class="install-option-card">
             <div class="install-option-header">
-              <h3>📦 Descargar Paquete DMG para macOS</h3>
+              <h3>📦 Descargar Paquete DMG macOS</h3>
             </div>
-            <p class="install-option-desc">Descarga el instalador independiente `.dmg` para Apple Silicon (M1/M2/M3/M4) e Intel Macs:</p>
-            <a href="https://github.com/dvigo/macbrew/releases/latest/download/MacBrew-1.0.0-arm64.dmg" class="btn btn-secondary direct-dmg-btn" target="_blank" rel="noopener">
+            <p class="install-option-desc">Descarga el instalador ejecutable `.dmg` universal para Apple Silicon (M1/M2/M3/M4) y Mac Intel:</p>
+            <a href="https://github.com/dvigo/macbrew/releases/latest/download/MacBrew-1.1.0-arm64.dmg" class="btn btn-secondary direct-dmg-btn" target="_blank" rel="noopener">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Descargar MacBrew-1.0.0-arm64.dmg</span>
+              <span>Descargar Última Versión DMG (v1.1.0)</span>
             </a>
             <p class="install-gatekeeper-tip">
               💡 <strong>Nota de Seguridad macOS:</strong> Para descargas directas del DMG, ejecuta <code>xattr -cr /Applications/MacBrew.app</code> en Terminal o haz Clic Derecho &rarr; Abrir para omitir el aviso de Gatekeeper.
