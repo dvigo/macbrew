@@ -310,7 +310,35 @@ class MacBrewApp {
    */
   renderCatalog() {
     const query = this.searchQuery.toLowerCase().trim();
-    const allApps = this.getAllApps();
+    let allApps = this.getAllApps();
+
+    if (this.currentMode === 'uninstall') {
+      allApps = allApps.filter(app => this.installedCaskIds.has(app.id));
+      if (allApps.length === 0) {
+        this.catalogEl.innerHTML = `
+          <div class="empty-installed-state">
+            <div class="empty-state-icon">📥</div>
+            <h3>${this.lang === 'es' ? 'No se han detectado aplicaciones instaladas' : 'No installed apps detected'}</h3>
+            <p>${this.lang === 'es' ? 'Haz clic en el botón "Importar Apps" arriba para pegar tus aplicaciones de tu Mac o abre la app de escritorio.' : 'Click "Import Apps" above to paste your installed Mac apps or launch the desktop application.'}</p>
+            <button id="empty-import-trigger-btn" class="btn btn-primary">
+              <span>${this.t('importAppsBtn')}</span>
+            </button>
+          </div>
+        `;
+
+        const triggerBtn = document.getElementById('empty-import-trigger-btn');
+        if (triggerBtn) {
+          triggerBtn.addEventListener('click', () => {
+            const modal = document.getElementById('import-modal-overlay');
+            if (modal) {
+              modal.classList.remove('hidden');
+              document.body.style.overflow = 'hidden';
+            }
+          });
+        }
+        return;
+      }
+    }
 
     // Filter apps by search
     const filteredApps = allApps.filter(app => {
@@ -1136,6 +1164,12 @@ class MacBrewApp {
       }
     }
 
+    const presetsWrapper = document.querySelector('.presets-wrapper');
+    if (presetsWrapper) {
+      presetsWrapper.style.display = mode === 'uninstall' ? 'none' : 'flex';
+    }
+
+    this.renderCatalog();
     this.updateUIState();
   }
 

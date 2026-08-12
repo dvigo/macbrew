@@ -1105,7 +1105,8 @@ body.is-desktop-app #install-app-btn {
 .mode-switcher-container {
   display: flex;
   justify-content: center;
-  margin-top: 1.25rem;
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
 }
 
 .mode-switcher-toggle {
@@ -1230,6 +1231,40 @@ body.mode-uninstall .btn-primary:hover {
 
 .import-textarea:focus {
   border-color: var(--accent-emerald);
+}
+
+/* Empty Installed State Card */
+.empty-installed-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  margin: 2rem 0;
+}
+
+.empty-installed-state .empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-installed-state h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.empty-installed-state p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .terminal-panel {
