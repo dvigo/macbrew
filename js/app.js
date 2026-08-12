@@ -458,8 +458,8 @@ class MacBrewApp {
       `;
     }).join('');
 
-    // Bottom Search Callout Card when browsing full catalog
-    const bottomCalloutHtml = `
+    // Bottom Search Callout Card when browsing full catalog (hidden in Uninstall Mode)
+    const bottomCalloutHtml = this.currentMode === 'uninstall' ? '' : `
       <section class="bottom-search-callout">
         <div class="callout-glass-card">
           <div class="callout-content">

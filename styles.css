@@ -1176,6 +1176,10 @@ body.mode-uninstall .floating-bar {
   border-color: rgba(239, 68, 68, 0.35);
 }
 
+body.mode-uninstall .bottom-search-callout {
+  display: none !important;
+}
+
 body.mode-uninstall .btn-primary {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
