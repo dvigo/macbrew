@@ -47,6 +47,55 @@ export function generateUninstallOneLiner(selectedApps, zap = false) {
 }
 
 /**
+ * Generates an executable Bash uninstallation script (uninstall.sh)
+ */
+export function generateUninstallScript(selectedApps, optZap = false) {
+  if (!selectedApps || selectedApps.length === 0) {
+    return '#!/bin/bash\necho "No apps selected for uninstallation."\nexit 0\n';
+  }
+
+  const casks = selectedApps.filter(app => app.type === 'cask').map(app => app.brew);
+  const formulas = selectedApps.filter(app => app.type === 'formula').map(app => app.brew);
+  const zapFlag = optZap ? '--zap ' : '';
+
+  const lines = [
+    '#!/bin/bash',
+    '# =============================================================================',
+    '# MacBrew Bulk Uninstallation Script',
+    '# Generated via MacBrew (https://macbrew.app)',
+    `# Date: ${new Date().toISOString().split('T')[0]}`,
+    '# =============================================================================',
+    '',
+    'set -e',
+    '',
+    'echo "🗑️ Starting MacBrew bulk uninstallation..."',
+    ''
+  ];
+
+  if (casks.length > 0) {
+    lines.push('# Uninstall Cask Applications');
+    lines.push(`echo "Uninstalling casks: ${casks.join(', ')}..."`);
+    lines.push(`brew uninstall --cask ${zapFlag}${casks.join(' ')} || true`);
+    lines.push('');
+  }
+
+  if (formulas.length > 0) {
+    lines.push('# Uninstall Formula Packages');
+    lines.push(`echo "Uninstalling formulas: ${formulas.join(', ')}..."`);
+    lines.push(`brew uninstall ${formulas.join(' ')} || true`);
+    lines.push('');
+  }
+
+  lines.push('# Run Homebrew cleanup');
+  lines.push('echo "Running brew cleanup..."');
+  lines.push('brew cleanup || true');
+  lines.push('');
+  lines.push('echo "✅ MacBrew uninstallation completed successfully!"');
+
+  return lines.join('\n');
+}
+
+/**
  * Generates an official Brewfile format
  */
 export function generateBrewfile(selectedApps) {

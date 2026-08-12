@@ -4,7 +4,7 @@ import { CATEGORIES, APPS } from './data/apps.js';
 import { PRESETS } from './data/presets.js';
 import { APP_ICONS } from './data/icons.js';
 import { TRANSLATIONS } from './i18n/translations.js';
-import { generateOneLiner, generateUninstallOneLiner, generateBrewfile, generateInstallScript } from './utils/generator.js';
+import { generateOneLiner, generateUninstallOneLiner, generateUninstallScript, generateBrewfile, generateInstallScript } from './utils/generator.js';
 
 class MacBrewApp {
   constructor() {
@@ -762,11 +762,16 @@ class MacBrewApp {
       this.downloadFile('Brewfile', content);
     });
 
-    // Download Script
+    // Download Script (install.sh vs uninstall.sh)
     document.getElementById('download-script-btn').addEventListener('click', () => {
       const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
-      const content = generateInstallScript(selectedApps, this.scriptOptions);
-      this.downloadFile('install.sh', content);
+      if (this.currentMode === 'uninstall') {
+        const content = generateUninstallScript(selectedApps, this.optZap);
+        this.downloadFile('uninstall.sh', content);
+      } else {
+        const content = generateInstallScript(selectedApps, this.scriptOptions);
+        this.downloadFile('install.sh', content);
+      }
     });
 
     // Direct Native Install Button
@@ -1053,11 +1058,23 @@ class MacBrewApp {
     if (optNoQuarantineContainer) optNoQuarantineContainer.style.display = isUninstall ? 'none' : 'flex';
     if (optUpgradeContainer) optUpgradeContainer.style.display = isUninstall ? 'none' : 'flex';
 
+    // Update Curl Tip at bottom of modal
+    const curlTip = document.querySelector('.curl-tip');
+    if (curlTip) {
+      if (isUninstall) {
+        const casksStr = selectedApps.map(a => a.brew).join(' ');
+        curlTip.innerHTML = `${this.lang === 'es' ? 'O desinstala directamente:' : 'Or uninstall directly:'} <code>brew uninstall --cask ${this.optZap ? '--zap ' : ''}${casksStr}</code>`;
+      } else {
+        curlTip.innerHTML = `${this.lang === 'es' ? 'O ejecuta directamente:' : 'Or run directly:'} <code>curl -sSL https://macbrew.app/install.sh | bash</code>`;
+      }
+    }
+
     if (isUninstall) {
       const uninstallCmd = generateUninstallOneLiner(selectedApps, this.optZap);
+      const uninstallScriptContent = generateUninstallScript(selectedApps, this.optZap);
       document.getElementById('code-oneliner').textContent = uninstallCmd;
       document.getElementById('code-brewfile').textContent = uninstallCmd;
-      document.getElementById('code-script').textContent = uninstallCmd;
+      document.getElementById('code-script').textContent = uninstallScriptContent;
     } else {
       document.getElementById('code-oneliner').textContent = generateOneLiner(selectedApps);
       document.getElementById('code-brewfile').textContent = generateBrewfile(selectedApps);
