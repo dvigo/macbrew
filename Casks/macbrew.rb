@@ -1,6 +1,6 @@
 cask "macbrew" do
   version "1.1.0"
-  sha256 "db1c7db2ccd9b1d5ee2df34377d14f69a186a0511fe82b1f5fc0408890b408e3"
+  sha256 "86a6ec22e6a9f2a91046cc464216349ab82febd4208d1f0b3ce1f1fd85e89c2b"
 
   url "https://github.com/dvigo/macbrew/releases/download/v#{version}/MacBrew-#{version}-arm64.dmg"
   name "MacBrew"
