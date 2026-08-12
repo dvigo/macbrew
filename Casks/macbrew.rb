@@ -17,6 +17,10 @@ cask "macbrew" do
 
   app "MacBrew.app"
 
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/MacBrew.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/MacBrew",
     "~/Library/Caches/app.macbrew.desktop",
