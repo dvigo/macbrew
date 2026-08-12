@@ -356,6 +356,12 @@ class MacBrewApp {
       localizedName: typeof cat.name === 'object' ? (cat.name[this.lang] || cat.name.en) : cat.name
     }));
 
+    categoriesToRender.push({
+      id: 'installed',
+      localizedName: this.lang === 'es' ? 'Otras Aplicaciones Instaladas' : 'Other Installed Packages',
+      icon: '📦'
+    });
+
     if (this.customApps.size > 0) {
       const customCatName = this.t('categories.custom');
       categoriesToRender.unshift({ id: 'custom', localizedName: customCatName, icon: '⭐' });
@@ -1179,20 +1185,54 @@ class MacBrewApp {
   parseInstalledInput(input, showToast = true) {
     if (!input || typeof input !== 'string') return;
 
-    const tokens = input.toLowerCase().split(/[\s,;\n\r]+/).map(t => t.trim()).filter(Boolean);
-    if (tokens.length === 0) return;
+    const rawTokens = input.split(/[\s,;\n\r]+/).map(t => t.trim()).filter(Boolean);
+    if (rawTokens.length === 0) return;
 
-    const tokenSet = new Set(tokens);
     const allApps = this.getAllApps();
+    const knownCaskMap = new Map();
+    allApps.forEach(app => {
+      knownCaskMap.set(app.id.toLowerCase(), app);
+      if (app.caskName) knownCaskMap.set(app.caskName.toLowerCase(), app);
+      if (app.brew) knownCaskMap.set(app.brew.toLowerCase(), app);
+      if (app.name) knownCaskMap.set(app.name.toLowerCase(), app);
+    });
+
     let detectedCount = 0;
 
-    allApps.forEach(app => {
-      const appId = app.id.toLowerCase();
-      const caskName = (app.caskName || app.name || '').toLowerCase();
-      const formulaName = (app.formulaName || '').toLowerCase();
+    rawTokens.forEach(rawToken => {
+      const token = rawToken.toLowerCase();
+      // Ignore lines that look like terminal warnings, headers, or paths
+      if (token.startsWith('==>') || token.startsWith('warning:') || token.includes('/') || token.startsWith('http')) return;
 
-      if (tokenSet.has(appId) || tokenSet.has(caskName) || (formulaName && tokenSet.has(formulaName))) {
+      if (knownCaskMap.has(token)) {
+        const app = knownCaskMap.get(token);
         this.installedCaskIds.add(app.id);
+        detectedCount++;
+      } else {
+        // Register dynamically as a custom installed cask package so it appears in catalog!
+        const formattedName = rawToken
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+
+        const customApp = {
+          id: token,
+          name: formattedName,
+          brew: token,
+          caskName: token,
+          type: 'cask',
+          category: 'installed',
+          description: {
+            en: `Installed Homebrew package (${token})`,
+            es: `Paquete Homebrew instalado (${token})`
+          },
+          icon: null,
+          symbol: '📦',
+          color: '#38bdf8'
+        };
+
+        this.customApps.set(token, customApp);
+        this.installedCaskIds.add(token);
         detectedCount++;
       }
     });
