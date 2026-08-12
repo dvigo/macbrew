@@ -691,7 +691,9 @@ class MacBrewApp {
     // Floating Bar Quick Copy Command
     document.getElementById('quick-copy-cmd').addEventListener('click', () => {
       const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
-      const cmd = generateOneLiner(selectedApps);
+      const cmd = this.currentMode === 'uninstall'
+        ? generateUninstallOneLiner(selectedApps, this.optZap)
+        : generateOneLiner(selectedApps);
       this.copyToClipboard(cmd, this.t('toastCopied'));
     });
 
@@ -964,9 +966,9 @@ class MacBrewApp {
     const count = this.selectedAppIds.size;
     this.selectedCountEl.textContent = count;
 
-    const getInstallerBtnSpan = document.querySelector('#get-installer-btn span');
-    if (getInstallerBtnSpan) {
-      getInstallerBtnSpan.textContent = this.currentMode === 'uninstall'
+    const openModalBtnSpan = document.querySelector('#open-modal-btn span');
+    if (openModalBtnSpan) {
+      openModalBtnSpan.textContent = this.currentMode === 'uninstall'
         ? this.t('getUninstaller')
         : this.t('getInstaller');
     }
