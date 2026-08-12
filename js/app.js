@@ -4,7 +4,7 @@ import { CATEGORIES, APPS } from './data/apps.js';
 import { PRESETS } from './data/presets.js';
 import { APP_ICONS } from './data/icons.js';
 import { TRANSLATIONS } from './i18n/translations.js';
-import { generateOneLiner, generateBrewfile, generateInstallScript } from './utils/generator.js';
+import { generateOneLiner, generateUninstallOneLiner, generateBrewfile, generateInstallScript } from './utils/generator.js';
 
 class MacBrewApp {
   constructor() {
@@ -13,10 +13,13 @@ class MacBrewApp {
     this.lang = (htmlLang === 'es' || window.location.pathname.startsWith('/es')) ? 'es' : 'en';
 
     this.selectedAppIds = new Set();
+    this.installedCaskIds = new Set();
     this.customApps = new Map();
     this.searchQuery = '';
     this.activePresetIds = new Set();
     this.activeTab = 'oneliner';
+    this.currentMode = 'install'; // 'install' | 'uninstall'
+    this.optZap = false;
     this.brewApiResults = [];
     this.searchDebounceTimer = null;
 
@@ -67,6 +70,17 @@ class MacBrewApp {
         directInstallBtn.classList.remove('hidden');
       }
 
+      // Automatically fetch installed casks in Desktop app mode
+      if (typeof window.macbrewNative.getInstalledCasks === 'function') {
+        window.macbrewNative.getInstalledCasks().then(installedList => {
+          if (Array.isArray(installedList) && installedList.length > 0) {
+            this.parseInstalledInput(installedList.join('\n'), false);
+          }
+        }).catch(err => {
+          console.warn('Could not auto-fetch installed casks:', err);
+        });
+      }
+
       window.macbrewNative.onBrewOutput((data) => {
         const terminalOutput = document.getElementById('terminal-output-content');
         if (!terminalOutput) return;
@@ -91,12 +105,18 @@ class MacBrewApp {
     const panel = document.getElementById('terminal-execution-panel');
     const content = document.getElementById('terminal-output-content');
     if (panel) panel.classList.remove('hidden');
-    if (content) content.textContent = '🚀 Launching Homebrew installation directly on your Mac...\n\n';
 
     const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
-    const cmd = generateInstallScript(selectedApps, this.scriptOptions);
 
-    window.macbrewNative.executeBrew(cmd);
+    if (this.currentMode === 'uninstall') {
+      if (content) content.textContent = '🗑️ Launching Homebrew uninstallation directly on your Mac...\n\n';
+      const cmd = generateUninstallOneLiner(selectedApps, this.optZap);
+      window.macbrewNative.executeBrew(cmd);
+    } else {
+      if (content) content.textContent = '🚀 Launching Homebrew installation directly on your Mac...\n\n';
+      const cmd = generateInstallScript(selectedApps, this.scriptOptions);
+      window.macbrewNative.executeBrew(cmd);
+    }
   }
 
   initTheme() {
@@ -474,6 +494,7 @@ class MacBrewApp {
           <div class="app-name-row">
             <h3 class="app-name">${app.name}</h3>
             <span class="app-type-badge ${app.type === 'cask' ? 'type-cask' : 'type-formula'}">${app.type}</span>
+            ${this.installedCaskIds.has(app.id) ? `<span class="badge-installed">${this.t('badgeInstalled')}</span>` : ''}
           </div>
           <p class="app-desc">${descText}</p>
         </div>
@@ -809,6 +830,93 @@ class MacBrewApp {
         }
       });
     }
+
+    // Mode Switcher Toggle (Install vs Uninstall)
+    const modeSwitcher = document.getElementById('mode-switcher');
+    if (modeSwitcher) {
+      modeSwitcher.addEventListener('click', (e) => {
+        const btn = e.target.closest('.mode-btn');
+        if (btn && btn.dataset.mode) {
+          this.setMode(btn.dataset.mode);
+        }
+      });
+    }
+
+    // Import Installed Apps Modal Events
+    const importAppsBtn = document.getElementById('import-apps-btn');
+    const closeImportModalBtn = document.getElementById('close-import-modal');
+    const importModalOverlay = document.getElementById('import-modal-overlay');
+    const copyImportCmdBtn = document.getElementById('copy-import-cmd-btn');
+    const pasteClipboardBtn = document.getElementById('paste-clipboard-btn');
+    const applyImportBtn = document.getElementById('apply-import-btn');
+
+    if (importAppsBtn) {
+      importAppsBtn.addEventListener('click', () => {
+        if (importModalOverlay) {
+          importModalOverlay.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    }
+
+    if (closeImportModalBtn) {
+      closeImportModalBtn.addEventListener('click', () => {
+        if (importModalOverlay) {
+          importModalOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    if (importModalOverlay) {
+      importModalOverlay.addEventListener('click', (e) => {
+        if (e.target === importModalOverlay) {
+          importModalOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    if (copyImportCmdBtn) {
+      copyImportCmdBtn.addEventListener('click', () => {
+        const input = document.getElementById('import-cmd-input');
+        if (input) {
+          input.select();
+          this.copyToClipboard(input.value, this.t('toastCopied'));
+        }
+      });
+    }
+
+    if (pasteClipboardBtn) {
+      pasteClipboardBtn.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          const textarea = document.getElementById('import-text-input');
+          if (textarea) {
+            textarea.value = text;
+          }
+          this.parseInstalledInput(text);
+          if (importModalOverlay) {
+            importModalOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+        } catch (err) {
+          this.showToast(this.lang === 'es' ? 'Permite el acceso al portapapeles o pega el texto manualmente' : 'Please allow clipboard permission or paste manually');
+        }
+      });
+    }
+
+    if (applyImportBtn) {
+      applyImportBtn.addEventListener('click', () => {
+        const textarea = document.getElementById('import-text-input');
+        const text = textarea ? textarea.value : '';
+        this.parseInstalledInput(text);
+        if (importModalOverlay) {
+          importModalOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
   }
 
   /**
@@ -837,9 +945,15 @@ class MacBrewApp {
   updateModalContent() {
     const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
     
-    document.getElementById('code-oneliner').textContent = generateOneLiner(selectedApps);
-    document.getElementById('code-brewfile').textContent = generateBrewfile(selectedApps);
-    document.getElementById('code-script').textContent = generateInstallScript(selectedApps, this.scriptOptions);
+    if (this.currentMode === 'uninstall') {
+      document.getElementById('code-oneliner').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
+      document.getElementById('code-brewfile').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
+      document.getElementById('code-script').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
+    } else {
+      document.getElementById('code-oneliner').textContent = generateOneLiner(selectedApps);
+      document.getElementById('code-brewfile').textContent = generateBrewfile(selectedApps);
+      document.getElementById('code-script').textContent = generateInstallScript(selectedApps, this.scriptOptions);
+    }
   }
 
   openModal() {
@@ -986,6 +1100,77 @@ class MacBrewApp {
       toast.style.transition = 'all 0.2s ease';
       setTimeout(() => toast.remove(), 200);
     }, 2800);
+  }
+
+  /**
+   * Switch between Install Mode and Uninstall Mode
+   */
+  setMode(mode) {
+    if (this.currentMode === mode) return;
+    this.currentMode = mode;
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+
+    document.body.classList.toggle('mode-uninstall', mode === 'uninstall');
+
+    const heroTitle = document.getElementById('hero-main-title');
+    const heroSub = document.getElementById('hero-main-sub');
+
+    if (heroTitle && heroSub) {
+      if (mode === 'uninstall') {
+        heroTitle.innerHTML = this.lang === 'es'
+          ? 'Desinstala software de tu Mac en <span>bloque</span>'
+          : 'Uninstall Mac software in <span>bulk</span>';
+        heroSub.textContent = this.lang === 'es'
+          ? 'Selecciona las aplicaciones instaladas que deseas eliminar y genera tu script de desinstalación de Homebrew en 1 clic.'
+          : 'Select installed apps to generate your custom uninstallation script or execute via desktop app.';
+      } else {
+        heroTitle.innerHTML = this.lang === 'es'
+          ? 'Instala todo tu software de Mac en <span>bloque</span>'
+          : 'Install all your Mac software in <span>bulk</span>';
+        heroSub.textContent = this.lang === 'es'
+          ? 'Selecciona tus aplicaciones preferidas y obtén tu script ejecutable o Brewfile al instante usando Homebrew.'
+          : 'Select your favorite apps and get your executable script or official Brewfile instantly using Homebrew.';
+      }
+    }
+
+    this.updateUIState();
+  }
+
+  /**
+   * Parse user terminal output / clipboard text to detect installed casks
+   */
+  parseInstalledInput(input, showToast = true) {
+    if (!input || typeof input !== 'string') return;
+
+    const tokens = input.toLowerCase().split(/[\s,;\n\r]+/).map(t => t.trim()).filter(Boolean);
+    if (tokens.length === 0) return;
+
+    const tokenSet = new Set(tokens);
+    const allApps = this.getAllApps();
+    let detectedCount = 0;
+
+    allApps.forEach(app => {
+      const appId = app.id.toLowerCase();
+      const caskName = (app.caskName || app.name || '').toLowerCase();
+      const formulaName = (app.formulaName || '').toLowerCase();
+
+      if (tokenSet.has(appId) || tokenSet.has(caskName) || (formulaName && tokenSet.has(formulaName))) {
+        this.installedCaskIds.add(app.id);
+        detectedCount++;
+      }
+    });
+
+    if (detectedCount > 0) {
+      this.renderCatalog();
+      if (showToast) {
+        this.showToast(this.t('importSuccessToast', { count: detectedCount }));
+      }
+    } else if (showToast) {
+      this.showToast(this.lang === 'es' ? 'No se detectaron aplicaciones coincidentes' : 'No matching apps detected');
+    }
   }
 }
 

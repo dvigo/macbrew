@@ -40,6 +40,12 @@
             <span data-i18n="installAppBtn">Instalar App</span>
           </button>
 
+          <!-- Import Installed Apps Button -->
+          <button id="import-apps-btn" class="btn btn-outline" title="Detectar aplicaciones instaladas">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="importAppsBtn">Importar Apps</span>
+          </button>
+
           <!-- Language Switcher -->
           <a href="../index.html" class="btn btn-outline lang-switcher" title="Cambiar idioma a Inglés">
             <span>🌐 EN</span>
@@ -57,8 +63,20 @@
     <section class="hero-section">
       <div class="container">
         <div class="hero-header">
-          <h1>Instala todo tu software de Mac en <span>bloque</span></h1>
-          <p>Selecciona tus aplicaciones preferidas y obtén tu script ejecutable o Brewfile al instante usando Homebrew.</p>
+          <h1 id="hero-main-title">Instala todo tu software de Mac en <span>bloque</span></h1>
+          <p id="hero-main-sub">Selecciona tus aplicaciones preferidas y obtén tu script ejecutable o Brewfile al instante usando Homebrew.</p>
+          
+          <!-- Mode Switcher (Install vs Uninstall) -->
+          <div class="mode-switcher-container">
+            <div class="mode-switcher-toggle" id="mode-switcher">
+              <button class="mode-btn active" data-mode="install">
+                <span data-i18n="modeInstall">📦 Modo Instalación</span>
+              </button>
+              <button class="mode-btn" data-mode="uninstall">
+                <span data-i18n="modeUninstall">🗑️ Modo Desinstalación</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Presets selection bar -->
@@ -279,6 +297,46 @@
         </div>
       </div>
     </footer>
+
+    <!-- Detect & Import Installed Apps Modal -->
+    <div id="import-modal-overlay" class="modal-overlay hidden">
+      <div class="modal-card import-modal-card">
+        <button id="close-import-modal" class="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+        
+        <div class="modal-header">
+          <h2 class="modal-title" data-i18n="importModalTitle">Detectar tus Aplicaciones Instaladas</h2>
+          <p class="modal-subtitle" data-i18n="importModalSubtitle">Importa tus aplicaciones de Homebrew instaladas para destacar tu setup o realizar desinstalaciones masivas.</p>
+        </div>
+
+        <div class="import-modal-body">
+          <div class="import-step-card">
+            <p class="import-step-desc" data-i18n="importCmdDesc">1. Copia y ejecuta este comando en la Terminal de tu Mac:</p>
+            <div class="share-input-wrapper">
+              <input type="text" id="import-cmd-input" value="brew list --cask | pbcopy" readonly>
+              <button id="copy-import-cmd-btn" class="btn btn-primary share-copy-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>Copiar</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="import-step-card">
+            <p class="import-step-desc" data-i18n="importPasteDesc">2. Pega el resultado del portapapeles a continuación o pulsa el botón de auto-pegar:</p>
+            <div class="import-paste-actions">
+              <button id="paste-clipboard-btn" class="btn btn-secondary import-paste-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+                <span data-i18n="importPasteBtn">Pegar desde el Portapapeles</span>
+              </button>
+            </div>
+            <textarea id="import-text-input" class="import-textarea" placeholder="Pega el resultado de la terminal aquí (ej: google-chrome, visual-studio-code)..."></textarea>
+          </div>
+
+          <button id="apply-import-btn" class="btn btn-primary btn-block import-apply-btn">
+            <span>Detectar y Destacar Apps</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Dedicated Install Desktop App Modal (Web Only) -->
     <div id="install-app-modal-overlay" class="modal-overlay hidden">

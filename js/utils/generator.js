@@ -23,6 +23,30 @@ export function generateOneLiner(selectedApps) {
 }
 
 /**
+ * Generates an official bulk uninstall command for Homebrew Casks & Formulas
+ */
+export function generateUninstallOneLiner(selectedApps, zap = false) {
+  if (!selectedApps || selectedApps.length === 0) {
+    return '# Selecciona al menos una aplicación para desinstalar';
+  }
+
+  const casks = selectedApps.filter(app => app.type === 'cask').map(app => app.brew);
+  const formulas = selectedApps.filter(app => app.type === 'formula').map(app => app.brew);
+
+  const parts = [];
+  const zapFlag = zap ? '--zap ' : '';
+
+  if (casks.length > 0) {
+    parts.push(`brew uninstall --cask ${zapFlag}${casks.join(' ')}`);
+  }
+  if (formulas.length > 0) {
+    parts.push(`brew uninstall ${formulas.join(' ')}`);
+  }
+
+  return parts.join(' && ');
+}
+
+/**
  * Generates an official Brewfile format
  */
 export function generateBrewfile(selectedApps) {

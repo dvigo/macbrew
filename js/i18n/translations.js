@@ -41,6 +41,26 @@ export const TRANSLATIONS = {
     installAppTitle: 'Install MacBrew Desktop App',
     installAppSubtitle: 'Get the native macOS desktop application with 1-click Homebrew installation engine.',
 
+    // App Detection & Import Modal
+    importAppsBtn: 'Import Apps',
+    importModalTitle: 'Detect Your Installed Apps',
+    importModalSubtitle: 'Import your installed Homebrew apps to highlight your setup or run bulk uninstallation.',
+    importCmdDesc: '1. Copy and run this command in your Mac Terminal:',
+    importPasteDesc: '2. Paste your clipboard output below or click the auto-paste button:',
+    importPasteBtn: 'Paste from Clipboard',
+    importManualPlaceholder: 'Paste terminal output here (e.g. google-chrome, visual-studio-code)...',
+    importSuccessToast: 'Detected {count} installed apps!',
+    badgeInstalled: '✓ Installed',
+
+    // Mode Switcher & Uninstall Mode
+    modeInstall: '📦 Install Mode',
+    modeUninstall: '🗑️ Uninstall Mode',
+    uninstallBannerTitle: '🗑️ Bulk Uninstallation Mode',
+    uninstallBannerDesc: 'Select installed apps to generate your custom uninstallation script or execute via desktop app.',
+    optZap: 'Deep Clean Configuration & Data (<code>--zap</code>)',
+    uninstallTerminalTitle: 'Official Homebrew Uninstallation Command',
+    btnUninstallRun: 'Uninstall Selected Apps',
+
     // Dedicated Share Modal
     shareModalTitle: 'Share Your Setup',
     shareModalSubtitle: 'Share your custom app selection with colleagues or save it for later.',
@@ -127,6 +147,26 @@ export const TRANSLATIONS = {
     shareTwitter: 'Compartir en X',
     shareWhatsapp: 'WhatsApp',
     copy1Liner: 'Copiar Comando',
+
+    // App Detection & Import Modal
+    importAppsBtn: 'Importar Apps',
+    importModalTitle: 'Detectar tus Aplicaciones Instaladas',
+    importModalSubtitle: 'Importa tus aplicaciones de Homebrew instaladas para destacar tu setup o realizar desinstalaciones masivas.',
+    importCmdDesc: '1. Copia y ejecuta este comando en la Terminal de tu Mac:',
+    importPasteDesc: '2. Pega el resultado del portapapeles a continuación o pulsa el botón de auto-pegar:',
+    importPasteBtn: 'Pegar desde el Portapapeles',
+    importManualPlaceholder: 'Pega el resultado de la terminal aquí (ej: google-chrome, visual-studio-code)...',
+    importSuccessToast: '¡Se detectaron {count} aplicaciones instaladas!',
+    badgeInstalled: '✓ Instalada',
+
+    // Mode Switcher & Uninstall Mode
+    modeInstall: '📦 Modo Instalación',
+    modeUninstall: '🗑️ Modo Desinstalación',
+    uninstallBannerTitle: '🗑️ Modo Desinstalación Masiva',
+    uninstallBannerDesc: 'Selecciona aplicaciones instaladas para generar tu script de desinstalación o ejecutarlas vía app de escritorio.',
+    optZap: 'Limpieza profunda de datos y configuración (<code>--zap</code>)',
+    uninstallTerminalTitle: 'Comando Oficial de Desinstalación de Homebrew',
+    btnUninstallRun: 'Desinstalar Aplicaciones Seleccionadas',
 
     // Universal Homebrew Search
     universalTitle: 'Añadir cualquier paquete de Homebrew (11,000+ disponibles)',
