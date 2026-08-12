@@ -880,19 +880,24 @@ body.mode-uninstall .badge-installed {
 /* Code Container */
 .code-box {
   position: relative;
-  background: #06080e;
+  background: #090d16;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1rem 1rem 1rem 1.25rem;
+  padding: 0.85rem 1rem 0.85rem 1.15rem;
   max-height: 320px;
   overflow: auto;
 }
 
-.code-box pre {
+.code-box pre,
+.code-box code {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.6;
-  color: #e2e8f0;
+  color: #f8fafc !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
   white-space: pre-wrap;
   word-break: break-all;
 }
@@ -2294,10 +2299,29 @@ body.light .option-checkbox {
   color: #334155;
 }
 
-body.light .code-box pre {
-  background: #0f172a;
-  color: #f8fafc;
-  border: 1px solid #1e293b;
+html.light .code-box pre,
+body.light .code-box pre,
+html.light .code-box code,
+body.light .code-box code {
+  background: transparent !important;
+  color: #f8fafc !important;
+  border: none !important;
+}
+
+/* Direct Execution Button and Terminal Panel are strictly desktop-app only! */
+#direct-install-btn,
+#terminal-execution-panel {
+  display: none !important;
+}
+
+html.is-desktop-app #direct-install-btn,
+body.is-desktop-app #direct-install-btn {
+  display: inline-flex !important;
+}
+
+html.is-desktop-app #terminal-execution-panel,
+body.is-desktop-app #terminal-execution-panel {
+  display: flex !important;
 }
 
 body.light .app-footer {
