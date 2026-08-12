@@ -1286,7 +1286,7 @@ class MacBrewApp {
             en: `Installed Homebrew package (${token})`,
             es: `Paquete Homebrew instalado (${token})`
           },
-          icon: null,
+          icon: this.getFaviconUrlForCask(token),
           symbol: '📦',
           color: '#38bdf8'
         };
@@ -1305,6 +1305,45 @@ class MacBrewApp {
     } else if (showToast) {
       this.showToast(this.lang === 'es' ? 'No se detectaron aplicaciones coincidentes' : 'No matching apps detected');
     }
+  }
+
+  /**
+   * Resolve real icon URL for imported Homebrew casks
+   */
+  getFaviconUrlForCask(token) {
+    const domainMap = {
+      'ghostty': 'ghostty.org',
+      'macbrew': 'macbrew.app',
+      'font-jetbrains-mono': 'jetbrains.com',
+      'font-fira-code': 'github.com',
+      'font-hack-nerd-font': 'nerdfonts.com',
+      'vlc': 'videolan.org',
+      'spotify': 'spotify.com',
+      'discord': 'discord.com',
+      'slack': 'slack.com',
+      'raycast': 'raycast.com',
+      'iterm2': 'iterm2.com',
+      'warp': 'warp.dev',
+      'postman': 'postman.com',
+      'obsidian': 'obsidian.md',
+      'transmission': 'transmissionbt.com',
+      'rectangle': 'rectangleapp.com',
+      'balena-etcher': 'balena.io',
+      'steam': 'steampowered.com',
+      'signal': 'signal.org',
+      'telegram': 'telegram.org',
+      'brave-browser': 'brave.com',
+      'arc': 'arc.net',
+      'firefox': 'firefox.com'
+    };
+
+    let domain = domainMap[token];
+    if (!domain) {
+      const cleanToken = token.replace(/^font-/, '').replace(/-font$/, '');
+      domain = `${cleanToken}.com`;
+    }
+
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
   }
 }
 
