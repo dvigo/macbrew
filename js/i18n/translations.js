@@ -116,9 +116,9 @@ export const TRANSLATIONS = {
     shareModalTitle: 'Compartir Configuración',
     shareModalSubtitle: 'Comparte tu selección de aplicaciones personalizada con otros o guárdala para más tarde.',
     selectedAppsLabel: 'Aplicaciones Seleccionadas ({count}):',
-    shareUrlLabel: 'Enlace Directo para Compartir',
-    copyLink: 'Copiar Enlace',
-    shareTwitter: 'Twitter / X',
+    selectedAppsSub: 'Tu configuración personalizada para macOS está lista. Copia el comando de 1 línea o ejecuta la instalación.',
+    directInstall: '⚡ Ejecutar Instalación Directamente en Mac',
+    shareTwitter: 'Compartir en X',
     shareWhatsapp: 'WhatsApp',
     copy1Liner: 'Copiar Comando',
 

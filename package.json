@@ -1,0 +1,48 @@
+{
+  "name": "macbrew",
+  "version": "1.0.0",
+  "description": "The ultimate macOS app installer & Homebrew GUI package manager",
+  "main": "electron/main.js",
+  "author": {
+    "name": "dvigo",
+    "url": "https://macbrew.app"
+  },
+  "license": "MIT",
+  "homepage": "https://macbrew.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvigo/macbrew.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build:mac": "electron-builder --mac",
+    "dist": "electron-builder --mac dmg zip --universal"
+  },
+  "build": {
+    "appId": "app.macbrew.desktop",
+    "productName": "MacBrew",
+    "copyright": "Copyright © 2026 dvigo",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "darkModeSupport": true
+    },
+    "files": [
+      "index.html",
+      "es/**/*",
+      "styles.css",
+      "favicon.svg",
+      "js/**/*",
+      "electron/**/*"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.0"
+  }
+}

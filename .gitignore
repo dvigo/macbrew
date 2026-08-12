@@ -14,9 +14,10 @@
 *.key
 *.cert
 
-# Vercel & Node
+# Vercel & Node & Build
 .vercel/
 node_modules/
+dist/
 
 # Editors & IDEs
 .vscode/

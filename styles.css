@@ -951,6 +951,88 @@ body {
   flex-wrap: wrap;
 }
 
+/* ==========================================================================
+   Desktop App & Terminal Execution Panel
+   ========================================================================== */
+
+body.is-desktop-app .app-header {
+  padding-top: 1.5rem;
+  -webkit-app-region: drag;
+}
+
+body.is-desktop-app button,
+body.is-desktop-app a,
+body.is-desktop-app input {
+  -webkit-app-region: no-drag;
+}
+
+.terminal-panel {
+  background: #090d16;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-md);
+  margin-top: 1rem;
+  overflow: hidden;
+  max-height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.terminal-output {
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #38bdf8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  margin: 0;
+  max-height: 170px;
+  background: transparent;
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #10b981;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
 .curl-tip {
   font-size: 0.78rem;
   color: var(--text-subtle);

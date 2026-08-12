@@ -175,12 +175,29 @@
             </button>
           </div>
 
+          <!-- Direct Native Terminal Execution Panel -->
+          <div id="terminal-execution-panel" class="terminal-panel hidden">
+            <div class="terminal-header">
+              <div class="terminal-controls">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+              </div>
+              <span class="terminal-title">Ejecución Directa de Terminal MacBrew</span>
+            </div>
+            <pre id="terminal-output-content" class="terminal-output">Listo para ejecutar la instalación de Homebrew...</pre>
+          </div>
+
           <div class="modal-footer-actions">
+            <button id="direct-install-btn" class="btn btn-accent hidden">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span data-i18n="directInstall">⚡ Ejecutar Instalación Directamente en Mac</span>
+            </button>
             <button id="download-script-btn" class="btn btn-primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               <span>Descargar install.sh</span>
             </button>
-            <span class="curl-tip">O ejecuta directamente: <code>curl -sSL https://macbrew.app/install.sh | bash</code></span>
+            <span class="curl-tip">O ejecutar directamente: <code>curl -sSL https://macbrew.app/install.sh | bash</code></span>
           </div>
         </div>
 

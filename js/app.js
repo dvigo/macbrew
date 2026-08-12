@@ -50,6 +50,47 @@ class MacBrewApp {
     this.renderCatalog();
     this.bindEvents();
     this.updateUIState();
+    this.initNativeIntegration();
+  }
+
+  initNativeIntegration() {
+    if (window.macbrewNative && window.macbrewNative.isNative) {
+      document.body.classList.add('is-desktop-app');
+      const directInstallBtn = document.getElementById('direct-install-btn');
+      if (directInstallBtn) {
+        directInstallBtn.classList.remove('hidden');
+      }
+
+      window.macbrewNative.onBrewOutput((data) => {
+        const terminalOutput = document.getElementById('terminal-output-content');
+        if (!terminalOutput) return;
+
+        if (data.type === 'stdout' || data.type === 'stderr') {
+          terminalOutput.textContent += data.text;
+        } else if (data.type === 'exit') {
+          terminalOutput.textContent += `\n[Process completed with exit code ${data.code}]\n`;
+        } else if (data.type === 'error') {
+          terminalOutput.textContent += `\n[Error: ${data.text}]\n`;
+        }
+
+        const panel = document.getElementById('terminal-execution-panel');
+        if (panel) panel.scrollTop = panel.scrollHeight;
+      });
+    }
+  }
+
+  executeNativeInstall() {
+    if (!window.macbrewNative) return;
+
+    const panel = document.getElementById('terminal-execution-panel');
+    const content = document.getElementById('terminal-output-content');
+    if (panel) panel.classList.remove('hidden');
+    if (content) content.textContent = '🚀 Launching Homebrew installation directly on your Mac...\n\n';
+
+    const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
+    const cmd = generateInstallScript(selectedApps, this.scriptOptions);
+
+    window.macbrewNative.executeBrew(cmd);
   }
 
   initTheme() {
@@ -660,6 +701,14 @@ class MacBrewApp {
       const content = generateInstallScript(selectedApps, this.scriptOptions);
       this.downloadFile('install.sh', content);
     });
+
+    // Direct Native Install Button
+    const directInstallBtn = document.getElementById('direct-install-btn');
+    if (directInstallBtn) {
+      directInstallBtn.addEventListener('click', () => {
+        this.executeNativeInstall();
+      });
+    }
 
     // Share Button Header
     if (this.shareBtnEl) {
