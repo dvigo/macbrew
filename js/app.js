@@ -56,6 +56,12 @@ class MacBrewApp {
   initNativeIntegration() {
     if (window.macbrewNative && window.macbrewNative.isNative) {
       document.body.classList.add('is-desktop-app');
+      
+      const installAppBtn = document.getElementById('install-app-btn');
+      if (installAppBtn) {
+        installAppBtn.style.display = 'none';
+      }
+
       const directInstallBtn = document.getElementById('direct-install-btn');
       if (directInstallBtn) {
         directInstallBtn.classList.remove('hidden');
@@ -758,6 +764,49 @@ class MacBrewApp {
         const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
         const cmd = generateOneLiner(selectedApps);
         this.copyToClipboard(cmd, this.t('toastCopied'));
+      });
+    }
+
+    // Install Desktop App Modal Events (Web Only)
+    const installAppBtn = document.getElementById('install-app-btn');
+    const closeInstallAppModalBtn = document.getElementById('close-install-app-modal');
+    const installAppModalOverlay = document.getElementById('install-app-modal-overlay');
+    const copyBrewCaskCmdBtn = document.getElementById('copy-brew-cask-cmd-btn');
+
+    if (installAppBtn) {
+      installAppBtn.addEventListener('click', () => {
+        if (installAppModalOverlay) {
+          installAppModalOverlay.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    }
+
+    if (closeInstallAppModalBtn) {
+      closeInstallAppModalBtn.addEventListener('click', () => {
+        if (installAppModalOverlay) {
+          installAppModalOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    if (installAppModalOverlay) {
+      installAppModalOverlay.addEventListener('click', (e) => {
+        if (e.target === installAppModalOverlay) {
+          installAppModalOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    if (copyBrewCaskCmdBtn) {
+      copyBrewCaskCmdBtn.addEventListener('click', () => {
+        const input = document.getElementById('brew-install-cmd-input');
+        if (input) {
+          input.select();
+          this.copyToClipboard(input.value, this.t('toastCopied'));
+        }
       });
     }
   }

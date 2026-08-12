@@ -35,6 +35,11 @@
         </div>
 
         <div class="header-actions">
+          <button id="install-app-btn" class="btn btn-secondary web-only-btn" title="Install MacBrew Desktop Application">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span data-i18n="installAppBtn">Install App</span>
+          </button>
+
           <!-- Language Switcher -->
           <a href="es/index.html" class="btn btn-outline lang-switcher" title="Switch language to Spanish">
             <span>🌐 ES</span>
@@ -274,6 +279,51 @@
         </div>
       </div>
     </footer>
+
+    <!-- Dedicated Install Desktop App Modal (Web Only) -->
+    <div id="install-app-modal-overlay" class="modal-overlay hidden">
+      <div class="modal-card install-app-modal-card">
+        <button id="close-install-app-modal" class="modal-close-btn" aria-label="Close modal">&times;</button>
+        
+        <div class="modal-header install-app-header">
+          <div class="install-app-header-icon">💻</div>
+          <div>
+            <h2 class="modal-title" data-i18n="installAppTitle">Install MacBrew Desktop App</h2>
+            <p class="modal-subtitle" data-i18n="installAppSubtitle">Get the native macOS desktop application with 1-click Homebrew installation engine.</p>
+          </div>
+        </div>
+
+        <div class="install-app-modal-body">
+          <!-- Homebrew Terminal Install Card -->
+          <div class="install-option-card">
+            <div class="install-option-header">
+              <span class="install-option-badge">Recommended</span>
+              <h3>🍺 Install via Homebrew</h3>
+            </div>
+            <p class="install-option-desc">Run this single line in your macOS Terminal to install MacBrew directly to your Applications folder:</p>
+            <div class="share-input-wrapper">
+              <input type="text" id="brew-install-cmd-input" value="brew install --cask https://raw.githubusercontent.com/dvigo/macbrew-desktop/main/Casks/macbrew.rb" readonly>
+              <button id="copy-brew-cask-cmd-btn" class="btn btn-primary share-copy-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Direct DMG Download Card -->
+          <div class="install-option-card">
+            <div class="install-option-header">
+              <h3>📦 Download macOS DMG Package</h3>
+            </div>
+            <p class="install-option-desc">Download the standalone universal `.dmg` installer for Apple Silicon (M1/M2/M3/M4) and Intel Macs:</p>
+            <a href="https://github.com/dvigo/macbrew-desktop/releases/latest/download/MacBrew-1.0.0-arm64.dmg" class="btn btn-secondary direct-dmg-btn" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download MacBrew-1.0.0-arm64.dmg</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Toast Notification container -->
     <div id="toast-container" class="toast-container"></div>
