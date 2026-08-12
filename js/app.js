@@ -1001,16 +1001,29 @@ class MacBrewApp {
     if (titleEl) titleEl.textContent = isUninstall ? this.t('uninstallModalTitle') : this.t('modalTitle');
     if (subTitleEl) subTitleEl.textContent = isUninstall ? this.t('uninstallModalSubtitle') : this.t('modalSubtitle');
 
-    // Update Direct Execution Button text and style
+    const isDesktopApp = window.macbrewNative && window.macbrewNative.isNative;
+
+    // Update Direct Execution Button text and style (ONLY for Desktop App mode)
     const directBtn = document.getElementById('direct-install-btn');
     if (directBtn) {
-      const btnSpan = directBtn.querySelector('span');
-      if (btnSpan) {
-        btnSpan.textContent = isUninstall ? this.t('uninstallRunBtn') : this.t('directInstall');
+      if (isDesktopApp) {
+        directBtn.classList.remove('hidden');
+        const btnSpan = directBtn.querySelector('span');
+        if (btnSpan) {
+          btnSpan.textContent = isUninstall ? this.t('uninstallRunBtn') : this.t('directInstall');
+        }
+        directBtn.style.background = isUninstall
+          ? 'linear-gradient(135deg, #ef4444, #dc2626)'
+          : '';
+      } else {
+        directBtn.classList.add('hidden');
       }
-      directBtn.style.background = isUninstall
-        ? 'linear-gradient(135deg, #ef4444, #dc2626)'
-        : '';
+    }
+
+    // Hide Terminal Execution Panel on Web
+    const terminalPanel = document.getElementById('terminal-execution-panel');
+    if (terminalPanel && !isDesktopApp) {
+      terminalPanel.classList.add('hidden');
     }
 
     // Update Download Button text
