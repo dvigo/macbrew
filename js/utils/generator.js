@@ -164,8 +164,6 @@ export function generateInstallScript(selectedApps, options = {}) {
 # Aplicaciones a instalar: ${selectedApps.length}
 # =============================================================================
 
-set -e
-
 # Colores para mensajes en la terminal
 BOLD="\\033[1m"
 CYAN="\\033[36m"
@@ -175,40 +173,46 @@ RED="\\033[31m"
 RESET="\\033[0m"
 
 echo -e "\${CYAN}\${BOLD}"
-echo "    __  ___           ____                   "
-echo "   /  |/  /___ ______/ __ )_________ _      "
-echo "  / /|_/ / __ \`/ ___/ __  / ___/ __ \`/      "
-echo " / /  / / /_/ / /__/ /_/ / /  / /_/ /       "
-echo "/_/  /_/\\__,_/\\___/_____/_/   \\__,_/        "
+echo "  __  __           ____                      "
+echo " |  \\/  | __ _ ___|  _ \\ _ __ _____   __     "
+echo " | |\\/| |/ _\` / __| |_) | '__/ _ \\ \\ / /     "
+echo " | |  | | (_| \\__ \\  _ <| | |  __/\\ V /      "
+echo " |_|  |_|\\__,_|___/_| \\_\\_|  \\___| \\_/       "
 echo -e "\${RESET}"
-echo -e "\${BOLD}Iniciando proceso de instalación masiva... \${RESET}\\n"
+echo -e "\${BOLD}Iniciando proceso de instalación masiva con MacBrew...\${RESET}\\n"
+
+# Cargar entorno de Homebrew si existe
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -f "/usr/local/bin/brew" ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 ${autoBrew ? `# 1. Verificar si Homebrew está instalado
-if ! command -v brew &> /dev/null; then
+if ! command -v brew >/dev/null 2>&1; then
   echo -e "\${YELLOW}⚠️  Homebrew no está instalado. Instalando Homebrew primero...\${RESET}"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  
-  if [[ $(uname -m) == "arm64" ]]; then
+  if [ -f "/opt/homebrew/bin/brew" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-  else
+  elif [ -f "/usr/local/bin/brew" ]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
 else
   echo -e "\${GREEN}✓ Homebrew está listo.\${RESET}"
 fi` : '# Homebrew preinstalado asumido'}
 
-echo -e "\\n\${CYAN}🔄 Actualizando paquetes de Homebrew...\${RESET}"
-brew update
+echo -e "\\n\${CYAN}🔄 Actualizando catálogo de Homebrew...\${RESET}"
+brew update || true
 
-${upgrade ? `echo -e "\\n\${CYAN}🆙 Actualizando aplicaciones existentes...\${RESET}"
-brew upgrade
+${upgrade ? `echo -e "\\n\${CYAN}🆙 Actualizando paquetes existentes...\${RESET}"
+brew upgrade || true
 ` : ''}
 ${formulas.length > 0 ? `# 2. Instalación de Formulas (CLI Tools & Runtimes)
 echo -e "\\n\${CYAN}📦 Instalando herramientas de consola (${formulas.length})...\${RESET}"
 FORMULAS=(${formulas.map(a => `"${a.brew}"`).join(' ')})
 
 for formula in "\${FORMULAS[@]}"; do
-  if brew list "$formula" &> /dev/null; then
+  if brew list "$formula" >/dev/null 2>&1; then
     echo -e "  \${YELLOW}➜ $formula ya está instalado.\${RESET}"
   else
     echo -e "  \${GREEN}➜ Instalando $formula...\${RESET}"
@@ -221,7 +225,7 @@ echo -e "\\n\${CYAN}🖥️  Instalando aplicaciones GUI (${casks.length})...\${
 CASKS=(${casks.map(a => `"${a.brew}"`).join(' ')})
 
 for cask in "\${CASKS[@]}"; do
-  if brew list --cask "$cask" &> /dev/null; then
+  if brew list --cask "$cask" >/dev/null 2>&1; then
     echo -e "  \${YELLOW}➜ $cask ya está instalado.\${RESET}"
   else
     echo -e "  \${GREEN}➜ Instalando $cask...\${RESET}"
@@ -231,7 +235,7 @@ done
 ` : ''}
 ${cleanup ? `# 4. Limpieza de archivos temporales
 echo -e "\\n\${CYAN}🧹 Limpiando caché de instalación...\${RESET}"
-brew cleanup
+brew cleanup || true
 ` : ''}
 echo -e "\\n\${GREEN}\${BOLD}🎉 ¡Proceso de MacBrew completado con éxito!\${RESET}"
 echo -e "Todas las aplicaciones seleccionadas han sido procesadas.\\n"
