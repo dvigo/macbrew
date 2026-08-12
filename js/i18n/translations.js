@@ -60,6 +60,13 @@ export const TRANSLATIONS = {
     optZap: 'Deep Clean Configuration & Data (<code>--zap</code>)',
     uninstallTerminalTitle: 'Official Homebrew Uninstallation Command',
     btnUninstallRun: 'Uninstall Selected Apps',
+    getUninstaller: 'Get Uninstaller',
+    uninstallModalTitle: 'Your MacBrew Uninstaller',
+    uninstallModalSubtitle: 'Generate your command or execute uninstallation on your Mac',
+    uninstallRunBtn: '⚡ Run Uninstallation Directly on Mac',
+    uninstallDownloadScript: 'Download uninstall.sh',
+    uninstallReadyStatus: 'Ready to execute Homebrew uninstallation...',
+    uninstallSelectedSub: 'Ready to uninstall with Homebrew',
 
     // Dedicated Share Modal
     shareModalTitle: 'Share Your Setup',
@@ -167,6 +174,13 @@ export const TRANSLATIONS = {
     optZap: 'Limpieza profunda de datos y configuración (<code>--zap</code>)',
     uninstallTerminalTitle: 'Comando Oficial de Desinstalación de Homebrew',
     btnUninstallRun: 'Desinstalar Aplicaciones Seleccionadas',
+    getUninstaller: 'Obtener Desinstalador',
+    uninstallModalTitle: 'Tu Desinstalador MacBrew',
+    uninstallModalSubtitle: 'Genera tu comando o ejecuta la desinstalación en tu Mac',
+    uninstallRunBtn: '⚡ Ejecutar Desinstalación Directamente en Mac',
+    uninstallDownloadScript: 'Descargar uninstall.sh',
+    uninstallReadyStatus: 'Listo para ejecutar la desinstalación de Homebrew...',
+    uninstallSelectedSub: 'Lista{s} para desinstalar con Homebrew',
 
     // Universal Homebrew Search
     universalTitle: 'Añadir cualquier paquete de Homebrew (11,000+ disponibles)',

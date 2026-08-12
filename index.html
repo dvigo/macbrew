@@ -123,8 +123,8 @@
       <div class="modal-card">
         <div class="modal-header">
           <div>
-            <h2 class="modal-title">Your MacBrew Installer</h2>
-            <p class="modal-subtitle">Choose your preferred installation format</p>
+            <h2 class="modal-title" id="modal-title-text" data-i18n="modalTitle">Your MacBrew Installer</h2>
+            <p class="modal-subtitle" id="modal-subtitle-text" data-i18n="modalSubtitle">Choose your preferred installation format</p>
           </div>
           <button id="close-modal-btn" class="close-modal-btn">&times;</button>
         </div>
@@ -172,21 +172,25 @@
           
           <!-- Script options -->
           <div class="script-options">
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-autobrew-container">
               <input type="checkbox" id="opt-autobrew" checked>
-              <span>Automatically install Homebrew if missing</span>
+              <span data-i18n="optAutoBrew">Automatically install Homebrew if missing</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-noquarantine-container">
               <input type="checkbox" id="opt-noquarantine" checked>
-              <span>Bypass macOS Gatekeeper quarantine (<code>--no-quarantine</code>)</span>
+              <span data-i18n="optNoQuarantine">Bypass macOS Gatekeeper quarantine (<code>--no-quarantine</code>)</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-zap-container">
+              <input type="checkbox" id="opt-zap">
+              <span data-i18n="optZap">Deep Clean Configuration & Data (<code>--zap</code>)</span>
+            </label>
+            <label class="option-checkbox" id="opt-cleanup-container">
               <input type="checkbox" id="opt-cleanup" checked>
-              <span>Run <code>brew cleanup</code> after installation</span>
+              <span data-i18n="optCleanup">Run <code>brew cleanup</code> after installation</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-upgrade-container">
               <input type="checkbox" id="opt-upgrade">
-              <span>Upgrade pre-existing packages (<code>brew upgrade</code>)</span>
+              <span data-i18n="optUpgrade">Upgrade pre-existing packages (<code>brew upgrade</code>)</span>
             </label>
           </div>
 

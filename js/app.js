@@ -739,11 +739,15 @@ class MacBrewApp {
     });
 
     // Script Options Checkboxes
-    ['autobrew', 'noquarantine', 'cleanup', 'upgrade'].forEach(key => {
+    ['autobrew', 'noquarantine', 'cleanup', 'upgrade', 'zap'].forEach(key => {
       const chk = document.getElementById(`opt-${key}`);
       if (chk) {
         chk.addEventListener('change', (e) => {
-          this.scriptOptions[key === 'autobrew' ? 'autoBrew' : key === 'noquarantine' ? 'noQuarantine' : key] = e.target.checked;
+          if (key === 'zap') {
+            this.optZap = e.target.checked;
+          } else {
+            this.scriptOptions[key === 'autobrew' ? 'autoBrew' : key === 'noquarantine' ? 'noQuarantine' : key] = e.target.checked;
+          }
           this.updateModalContent();
         });
       }
@@ -960,11 +964,20 @@ class MacBrewApp {
     const count = this.selectedAppIds.size;
     this.selectedCountEl.textContent = count;
 
+    const getInstallerBtnSpan = document.querySelector('#get-installer-btn span');
+    if (getInstallerBtnSpan) {
+      getInstallerBtnSpan.textContent = this.currentMode === 'uninstall'
+        ? this.t('getUninstaller')
+        : this.t('getInstaller');
+    }
+
     if (count > 0) {
       this.floatingBarEl.classList.remove('hidden');
       const pluralS = count > 1 ? (this.lang === 'es' ? 's' : 's') : '';
       this.summaryTitleEl.textContent = this.t('selectedAppsTitle', { count, s: pluralS });
-      this.summarySubtitleEl.textContent = this.t('selectedAppsSub', { s: pluralS });
+      this.summarySubtitleEl.textContent = this.currentMode === 'uninstall'
+        ? this.t('uninstallSelectedSub', { s: pluralS })
+        : this.t('selectedAppsSub', { s: pluralS });
     } else {
       this.floatingBarEl.classList.add('hidden');
     }
@@ -978,11 +991,58 @@ class MacBrewApp {
    */
   updateModalContent() {
     const selectedApps = this.getAllApps().filter(app => this.selectedAppIds.has(app.id));
+    const isUninstall = this.currentMode === 'uninstall';
     
-    if (this.currentMode === 'uninstall') {
-      document.getElementById('code-oneliner').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
-      document.getElementById('code-brewfile').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
-      document.getElementById('code-script').textContent = generateUninstallOneLiner(selectedApps, this.optZap);
+    // Update Modal Title and Subtitle
+    const titleEl = document.getElementById('modal-title-text');
+    const subTitleEl = document.getElementById('modal-subtitle-text');
+    if (titleEl) titleEl.textContent = isUninstall ? this.t('uninstallModalTitle') : this.t('modalTitle');
+    if (subTitleEl) subTitleEl.textContent = isUninstall ? this.t('uninstallModalSubtitle') : this.t('modalSubtitle');
+
+    // Update Direct Execution Button text and style
+    const directBtn = document.getElementById('direct-install-btn');
+    if (directBtn) {
+      const btnSpan = directBtn.querySelector('span');
+      if (btnSpan) {
+        btnSpan.textContent = isUninstall ? this.t('uninstallRunBtn') : this.t('directInstall');
+      }
+      directBtn.style.background = isUninstall
+        ? 'linear-gradient(135deg, #ef4444, #dc2626)'
+        : '';
+    }
+
+    // Update Download Button text
+    const downloadScriptBtnSpan = document.querySelector('#download-script-btn span');
+    if (downloadScriptBtnSpan) {
+      downloadScriptBtnSpan.textContent = isUninstall
+        ? this.t('uninstallDownloadScript')
+        : this.t('downloadScript');
+    }
+
+    // Update Terminal Output status
+    const outputContent = document.getElementById('terminal-output-content');
+    if (outputContent && !outputContent.textContent.includes('[Process')) {
+      outputContent.textContent = isUninstall
+        ? this.t('uninstallReadyStatus')
+        : (this.lang === 'es' ? 'Listo para ejecutar la instalación de Homebrew...' : 'Ready to execute Homebrew installation...');
+    }
+
+    // Toggle Script Options visibility for Uninstall mode
+    const optZapContainer = document.getElementById('opt-zap-container');
+    const optAutoBrewContainer = document.getElementById('opt-autobrew-container');
+    const optNoQuarantineContainer = document.getElementById('opt-noquarantine-container');
+    const optUpgradeContainer = document.getElementById('opt-upgrade-container');
+
+    if (optZapContainer) optZapContainer.style.display = isUninstall ? 'flex' : 'none';
+    if (optAutoBrewContainer) optAutoBrewContainer.style.display = isUninstall ? 'none' : 'flex';
+    if (optNoQuarantineContainer) optNoQuarantineContainer.style.display = isUninstall ? 'none' : 'flex';
+    if (optUpgradeContainer) optUpgradeContainer.style.display = isUninstall ? 'none' : 'flex';
+
+    if (isUninstall) {
+      const uninstallCmd = generateUninstallOneLiner(selectedApps, this.optZap);
+      document.getElementById('code-oneliner').textContent = uninstallCmd;
+      document.getElementById('code-brewfile').textContent = uninstallCmd;
+      document.getElementById('code-script').textContent = uninstallCmd;
     } else {
       document.getElementById('code-oneliner').textContent = generateOneLiner(selectedApps);
       document.getElementById('code-brewfile').textContent = generateBrewfile(selectedApps);

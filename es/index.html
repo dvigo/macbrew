@@ -123,8 +123,8 @@
       <div class="modal-card">
         <div class="modal-header">
           <div>
-            <h2 class="modal-title">Tu Instalador MacBrew</h2>
-            <p class="modal-subtitle">Elige el formato de instalación que prefieras</p>
+            <h2 class="modal-title" id="modal-title-text" data-i18n="modalTitle">Tu Instalador MacBrew</h2>
+            <p class="modal-subtitle" id="modal-subtitle-text" data-i18n="modalSubtitle">Elige el formato de instalación que prefieras</p>
           </div>
           <button id="close-modal-btn" class="close-modal-btn">&times;</button>
         </div>
@@ -172,21 +172,25 @@
           
           <!-- Script options -->
           <div class="script-options">
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-autobrew-container">
               <input type="checkbox" id="opt-autobrew" checked>
-              <span>Instalar Homebrew automáticamente si falta</span>
+              <span data-i18n="optAutoBrew">Instalar Homebrew automáticamente si falta</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-noquarantine-container">
               <input type="checkbox" id="opt-noquarantine" checked>
-              <span>Ignorar cuarentena de macOS (<code>--no-quarantine</code>)</span>
+              <span data-i18n="optNoQuarantine">Ignorar cuarentena de macOS (<code>--no-quarantine</code>)</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-zap-container">
+              <input type="checkbox" id="opt-zap">
+              <span data-i18n="optZap">Limpieza profunda de datos y configuración (<code>--zap</code>)</span>
+            </label>
+            <label class="option-checkbox" id="opt-cleanup-container">
               <input type="checkbox" id="opt-cleanup" checked>
-              <span>Ejecutar <code>brew cleanup</code> al finalizar</span>
+              <span data-i18n="optCleanup">Ejecutar <code>brew cleanup</code> al finalizar</span>
             </label>
-            <label class="option-checkbox">
+            <label class="option-checkbox" id="opt-upgrade-container">
               <input type="checkbox" id="opt-upgrade">
-              <span>Actualizar paquetes preexistentes (<code>brew upgrade</code>)</span>
+              <span data-i18n="optUpgrade">Actualizar paquetes preexistentes (<code>brew upgrade</code>)</span>
             </label>
           </div>
 
