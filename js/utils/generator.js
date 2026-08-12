@@ -232,7 +232,7 @@ for cask in "\${CASKS[@]}"; do
     echo -e "  \${YELLOW}➜ $cask ya está instalado.\${RESET}"
   else
     echo -e "  \${GREEN}➜ Instalando $cask...\${RESET}"
-    brew install --cask${caskFlag} "$cask" || echo -e "  \${RED}❌ Error al instalar $cask\${RESET}"
+    brew install --cask "$cask" || echo -e "  \${RED}❌ Error al instalar $cask\${RESET}"
   fi
 done
 ` : ''}
