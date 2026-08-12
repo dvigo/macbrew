@@ -1293,8 +1293,13 @@ class MacBrewApp {
 
     rawTokens.forEach(rawToken => {
       const token = rawToken.toLowerCase();
-      // Ignore lines that look like terminal warnings, headers, or paths
+      // Ignore lines that look like terminal warnings, headers, paths, or URLs
       if (token.startsWith('==>') || token.startsWith('warning:') || token.includes('/') || token.startsWith('http')) return;
+
+      // Safety filter: Ignore low-level system C-libraries & versioned formulas (e.g. openssl@3, ca-certificates, readline) to prevent uninstalling system dependencies
+      if (token.includes('@') || token.startsWith('lib') || ['ca-certificates', 'openssl', 'readline', 'sqlite', 'glib', 'gettext', 'pcre2', 'gmp', 'xz', 'zstd', 'icu4c', 'ncurses', 'bzip2'].includes(token)) {
+        return;
+      }
 
       if (knownCaskMap.has(token)) {
         const app = knownCaskMap.get(token);
