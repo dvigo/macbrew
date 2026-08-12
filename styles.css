@@ -955,21 +955,29 @@ body {
    Desktop App Dragging & Top Margin for Window Traffic Lights
    ========================================================================== */
 
+html.is-desktop-app .navbar,
 body.is-desktop-app .navbar {
-  padding-top: 2.4rem;
+  padding-top: 1.2rem;
+  padding-left: 85px; /* Safe padding for macOS 🔴🟡🟢 window control buttons */
   -webkit-app-region: drag;
   user-select: none;
 }
 
+html.is-desktop-app .navbar-content,
 body.is-desktop-app .navbar-content {
   -webkit-app-region: drag;
 }
 
-body.is-desktop-app .brand,
-body.is-desktop-app .header-actions,
-body.is-desktop-app button,
-body.is-desktop-app a,
-body.is-desktop-app input {
+html.is-desktop-app .navbar input,
+body.is-desktop-app .navbar input,
+html.is-desktop-app .navbar button,
+body.is-desktop-app .navbar button,
+html.is-desktop-app .navbar select,
+body.is-desktop-app .navbar select,
+html.is-desktop-app .search-container,
+body.is-desktop-app .search-container,
+html.is-desktop-app .search-box,
+body.is-desktop-app .search-box {
   -webkit-app-region: no-drag;
 }
 
