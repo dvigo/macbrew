@@ -1,8 +1,8 @@
 cask "macbrew" do
   version "1.0.0"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  sha256 "a408e880a8d77665cf16a0d4312273c4ed21646ac99e050dd5432ac8c848e64e"
 
-  url "https://github.com/dvigo/macbrew/releases/download/v#{version}/MacBrew-#{version}-universal.dmg"
+  url "https://github.com/dvigo/macbrew/releases/download/v#{version}/MacBrew-#{version}-arm64.dmg"
   name "MacBrew"
   desc "The ultimate macOS app installer & Homebrew GUI package manager"
   homepage "https://macbrew.app"
