@@ -50,9 +50,13 @@
     });
   }
 
+  const initialTheme = getPreferredTheme();
+  applyTheme(initialTheme);
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
+  window.addEventListener('load', updateButtons);
 })();

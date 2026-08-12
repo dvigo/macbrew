@@ -37,6 +37,9 @@ export const TRANSLATIONS = {
     toastCopied: 'Copied to clipboard!',
     toastDownloaded: '{file} downloaded',
     toastShareCopied: 'Selection link copied to clipboard!',
+    installAppBtn: 'Install App',
+    installAppTitle: 'Install MacBrew Desktop App',
+    installAppSubtitle: 'Get the native macOS desktop application with 1-click Homebrew installation engine.',
 
     // Dedicated Share Modal
     shareModalTitle: 'Share Your Setup',
