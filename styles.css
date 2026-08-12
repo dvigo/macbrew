@@ -1181,6 +1181,33 @@ body.mode-uninstall .floating-bar-content {
   border-color: rgba(239, 68, 68, 0.4) !important;
 }
 
+/* Crisp Light Mode Floating Bar in Uninstall Mode */
+html.light.mode-uninstall .floating-bar-content,
+body.light.mode-uninstall .floating-bar-content {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.18), 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light.mode-uninstall .summary-text strong,
+body.light.mode-uninstall .summary-text strong {
+  color: #0f172a !important;
+}
+
+html.light.mode-uninstall .summary-text span,
+body.light.mode-uninstall .summary-text span {
+  color: #64748b !important;
+}
+
+html.light.mode-uninstall .badge-count,
+body.light.mode-uninstall .badge-count {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.35) !important;
+}
+
 body.mode-uninstall .bottom-search-callout {
   display: none !important;
 }
