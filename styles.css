@@ -1071,6 +1071,25 @@ body.is-desktop-app #install-app-btn {
   font-size: 0.95rem;
 }
 
+.install-gatekeeper-tip {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.85rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.install-gatekeeper-tip code {
+  font-family: var(--font-mono);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  color: var(--accent-amber);
+}
+
 .terminal-panel {
   background: #090d16;
   border: 1px solid rgba(56, 189, 248, 0.25);
